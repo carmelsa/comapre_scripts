@@ -1,0 +1,11 @@
+{
+  "host": "carmeldev",
+  "user": "kaltura",
+  "password": "XeIwD4STBaiUwOc",
+  "database": "kaltura",
+  "create_table_file_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/base/sql/01.kaltura_ce_tables.sql",
+  "permission_file_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/permissions/object.KalturaThumbCuePoint.ini",
+  "permission_folder_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/permissions",
+
+  "ignore_spaces" : true
+}
