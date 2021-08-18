@@ -73,7 +73,8 @@ def find_diff(set_db, set_file, start):
         print("In file - " + str(diff_from_file))
 
 
-if __name__ == '__main__':
+def main():
+    global ignore_spaces
     f = open("compare_db_table_to_file.json", "r")
     params = json.load(f)
     ignore_spaces = params["ignore_spaces"]
@@ -88,3 +89,7 @@ if __name__ == '__main__':
         table_content_db = get_table_content_by_name_from_db(my_db, table_name)
         compare_content(table_content_db[0], table_content_by_name.get(table_name), table_name)
     print("done")
+
+
+if __name__ == '__main__':
+    main()
