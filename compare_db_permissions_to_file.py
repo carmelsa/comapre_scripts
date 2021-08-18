@@ -8,9 +8,13 @@ from copy import deepcopy
 import mysql.connector
 
 OBJECT_FIELD = "object"
-SELECT_PERMISSION_T0_PERMISSION_ITEM = "select permission_id from permission_to_permission_item where permission_item_id ="
-SELECT_FROM_PERMISSION = "select name from permission where id in ("
-SELECT_FROM_PERMISSION_ITEM = "select * from permission_item where param_1=\""
+SELECT_WITH_JOIN = r"""
+select param_1 as object,param_2 as parameter,param_3 as action,permission_item.partner_id as partnerid, GROUP_CONCAT(DISTINCT name) as permissions
+from permission_item join permission_to_permission_item 
+on permission_item.id=permission_to_permission_item.permission_item_id 
+join permission on permission_to_permission_item.permission_id=permission.id 
+where param_1="%s" 
+Group by param_1,param_2,param_3,permission_item.partner_id"""
 
 
 def connect_db(params):
@@ -24,30 +28,20 @@ def connect_db(params):
 
 def get_permission_from_db(my_db, object_name):
     my_cursor = my_db.cursor(dictionary=True)
-    my_cursor.execute(SELECT_FROM_PERMISSION_ITEM + object_name + "\"")
+    my_cursor.execute(SELECT_WITH_JOIN % object_name)
     permission_item_list = my_cursor.fetchall()
     return permission_item_list
 
 
-def get_permission_names_from_db(my_db, permission_id):
-    my_cursor = my_db.cursor(dictionary=True)
-    my_cursor.execute(SELECT_PERMISSION_T0_PERMISSION_ITEM + str(permission_id))
-    permission_ids = my_cursor.fetchall()
-    permission_ids_string = [str(permission["permission_id"]) for permission in permission_ids]
-    my_cursor.execute(SELECT_FROM_PERMISSION + ",".join(permission_ids_string) + ")")
-    permission_names_dict = my_cursor.fetchall()
-    return {str(name["name"]).replace(' ', '') for name in permission_names_dict}
-
-
 def get_permission_names_from_file(db_permission, file_permissions_dict, file_permissions_delete):
     for key, file_permission in file_permissions_dict.items():
-        if str_file_item(file_permission) == str_db_item(db_permission):
-            permissions_names = file_permission["permissions"].split(",")
+        if str_item(file_permission) == str_item(db_permission):
+            permissions_names = file_permission.get("permissions").split(",")
             del (file_permissions_delete[key])
             return {re.search(r"\s*(.*?>)?(?P<content>.*)\s*", x).group("content") for x in permissions_names}
 
     print("**************************************")
-    print("missing configuration in file . db has permission" + str_db_item(db_permission))
+    print("missing configuration in file . db has permission" + str_item(db_permission))
 
 
 def find_diff_in_names(permission_names_from_db, permission_names_from_file, db_item):
@@ -56,20 +50,16 @@ def find_diff_in_names(permission_names_from_db, permission_names_from_file, db_
     diff_from_db = permission_names_from_db - permission_names_from_file
     diff_from_file = permission_names_from_file - permission_names_from_db
     if diff_from_db or diff_from_file:
-        print("******************* found diff in permissions " + str_db_item(db_item) + " : *******************")
+        print("******************* found diff in permissions " + str_item(db_item) + " : *******************")
     if diff_from_db:
         print("In db   - " + str(diff_from_db))
     if diff_from_file:
         print("In file - " + str(diff_from_file))
 
 
-def str_db_item(db_item):
-    return db_item["param_1"] + " " + db_item["param_2"] + " " + db_item["param_3"] + " " + str(db_item["partner_id"])
-
-
-def str_file_item(file_item):
-    return file_item[OBJECT_FIELD] + " " + file_item["parameter"] + " " + file_item["action"] + " " + \
-           file_item["partnerid"]
+def str_item(file_item):
+    return file_item.get(OBJECT_FIELD) + " " + file_item.get("parameter") + " " + file_item.get("action") + " " + \
+           str(file_item.get("partnerid"))
 
 
 def get_file_permissions_dict(section, config):
@@ -89,14 +79,14 @@ def compare_db_to_file_permissions(my_db, config):
         db_permission_dict = get_permission_from_db(my_db, object_name)
         file_permissions_delete = deepcopy(file_permissions_dict)
         for db_item in db_permission_dict:
-            permission_names_from_db = get_permission_names_from_db(my_db, db_item["id"])
+            permission_names_from_db = set(db_item.get("permissions").split(","))
             permission_names_from_file = get_permission_names_from_file(db_item, file_permissions_dict,
                                                                         file_permissions_delete)
             find_diff_in_names(permission_names_from_db, permission_names_from_file, db_item)
         if len(file_permissions_delete) != 0:
             for file_permission in file_permissions_delete.values():
                 print("**************************************")
-                print("missing configuration in db . file has permission - " + str_file_item(file_permission))
+                print("missing configuration in db . file has permission - " + str_item(file_permission))
 
 
 def main():
