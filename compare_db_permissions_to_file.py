@@ -96,7 +96,7 @@ def compare_db_to_file_permissions(my_db, path):
             compare_section_permissions(config, my_db, section, SELECT_WITH_JOIN_PARAMETER, file_error_message)
         else:
             file_error_message.append("unknown file type " + section)
-            return
+            continue
     if len(file_error_message) != 0:
         print('\033[94m' + "\nfile : " + path + '\033[0m')
         [print(x) for x in file_error_message]
