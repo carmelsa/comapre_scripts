@@ -14,6 +14,7 @@ def connect_db(params):
 
 
 ignore_spaces = False
+ignore_capital = False
 
 
 def get_table_names_from_db(my_db):
@@ -57,13 +58,23 @@ def is_diff_spaces(set_db, set_file):
     if ignore_spaces and len(set_db) != 0 and len(set_file) != 0:
         text1 = [x.replace(' ', '') for x in set_db]
         text2 = [x.replace(' ', '') for x in set_file]
-        return set(text1) ^ set(text2)
+        a = set(text1) ^ set(text2)
+        return len(set(text1) ^ set(text2)) == 0
+    return False
+
+
+def is_diff_capital(set_db, set_file):
+    if ignore_capital and len(set_db) != 0 and len(set_file) != 0:
+        text1 = [x.lower() for x in set_db]
+        text2 = [x.lower() for x in set_file]
+        return len(set(text1) ^ set(text2)) == 0
+    return False
 
 
 def find_diff(set_db, set_file, start):
     diff_from_db = set(set_db) - set(set_file)
     diff_from_file = set(set_file) - set(set_db)
-    if is_diff_spaces(set_db, set_file):
+    if is_diff_spaces(set_db, set_file) or is_diff_capital(set_db, set_file):
         return
     if diff_from_db or diff_from_file:
         print(start)
@@ -74,10 +85,12 @@ def find_diff(set_db, set_file, start):
 
 
 def main():
-    global ignore_spaces
+    global ignore_spaces, ignore_capital
     f = open("compare_db_table_to_file.json", "r")
     params = json.load(f)
-    ignore_spaces = params["ignore_spaces"]
+    ignore_spaces = params.get("ignore_spaces", False)
+    ignore_capital = params.get("ignore_capital", False)
+
     with open(params["create_table_file_path"], "r") as fd:
         content = fd.read()
     file_tables = get_table_names_from_file(content)
