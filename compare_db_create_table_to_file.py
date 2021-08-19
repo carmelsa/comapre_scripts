@@ -58,7 +58,6 @@ def is_diff_spaces(set_db, set_file):
     if ignore_spaces and len(set_db) != 0 and len(set_file) != 0:
         text1 = [x.replace(' ', '') for x in set_db]
         text2 = [x.replace(' ', '') for x in set_file]
-        a = set(text1) ^ set(text2)
         return len(set(text1) ^ set(text2)) == 0
     return False
 

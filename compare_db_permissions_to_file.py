@@ -44,27 +44,28 @@ def get_permission_from_db(my_db, object_name, SELECT_WITH_JOIN):
     return permission_item_list
 
 
-def get_permission_names_from_file(db_permission, file_permissions_dict, file_permissions_delete):
+def get_permission_names_from_file(db_permission, file_permissions_dict, file_permissions_delete, file_error_message):
     for key, file_permission in file_permissions_dict.items():
         if str_item(file_permission).lower() == str_item(db_permission).lower():
             permissions_names = file_permission.get("permissions").split(",")
             del (file_permissions_delete[key])
             return {re.search(r"\s*(.*?>)?(?P<content>.*)\s*", x).group("content") for x in permissions_names}
 
-    print("missing configuration in file . db has permission - " + str_item(db_permission))
+    file_error_message.append("missing configuration in file . db has permission - " + str_item(db_permission))
 
 
-def find_diff_in_names(permission_names_from_db, permission_names_from_file, db_item):
+def find_diff_in_names(permission_names_from_db, permission_names_from_file, db_item, file_error_message):
     if not permission_names_from_db or not permission_names_from_file:
         return
     diff_from_db = permission_names_from_db - permission_names_from_file
     diff_from_file = permission_names_from_file - permission_names_from_db
     if diff_from_db or diff_from_file:
-        print("******************* found diff in permissions " + str_item(db_item) + " : *******************")
+        file_error_message.append(
+            "******************* found diff in permissions " + str_item(db_item) + " : *******************")
     if diff_from_db:
-        print("In db   - " + str(diff_from_db))
+        file_error_message.append("In db   - " + str(diff_from_db))
     if diff_from_file:
-        print("In file - " + str(diff_from_file))
+        file_error_message.append("In file - " + str(diff_from_file))
 
 
 def str_item(file_item):
@@ -73,44 +74,48 @@ def str_item(file_item):
         file_item.get("partnerid"))
 
 
-def get_file_permissions_dict(section, config):
+def get_file_permissions_dict(section, config, file_error_message):
     file_permissions_dict = defaultdict(dict)
     for option in config.options(section):
         split_option = option.replace("service", OBJECT_FIELD).split(".")
         file_permissions_dict[split_option[0]][split_option[1]] = config.get(section, option)
     objects = {dict_item.get(OBJECT_FIELD, dict_item.get("service")) for dict_item in file_permissions_dict.values()}
     if len(objects) != 1:
-        print("more than 1 object in file")
+        file_error_message.append("more than 1 object in file")
     return file_permissions_dict, objects.pop()
 
 
 def compare_db_to_file_permissions(my_db, path):
+    file_error_message = []
     config = configparser.ConfigParser()
-    print('\033[94m' + "\nfile : " + path + '\033[0m')
     config.read(path)
     for section in config.sections():
         if section == "action_permission_items":
-            compare_section_permissions(config, my_db, section, SELECT_WITH_JOIN_ACTION)
+            compare_section_permissions(config, my_db, section, SELECT_WITH_JOIN_ACTION, file_error_message)
         elif section == "parameter_permission_items":
-            compare_section_permissions(config, my_db, section, SELECT_WITH_JOIN_PARAMETER)
+            compare_section_permissions(config, my_db, section, SELECT_WITH_JOIN_PARAMETER, file_error_message)
         else:
-            print("unknown file type " + section)
+            file_error_message.append("unknown file type " + section)
             return
+    if len(file_error_message) != 0:
+        print('\033[94m' + "\nfile : " + path + '\033[0m')
+        [print(x) for x in file_error_message]
 
 
-def compare_section_permissions(config, my_db, section, select_query):
-    file_permissions_dict, object_name = get_file_permissions_dict(section, config)
+def compare_section_permissions(config, my_db, section, select_query, file_error_message):
+    file_permissions_dict, object_name = get_file_permissions_dict(section, config, file_error_message)
     db_permission_dict = get_permission_from_db(my_db, object_name, select_query)
     file_permissions_delete = deepcopy(file_permissions_dict)
 
     for db_item in db_permission_dict:
         permission_names_from_db = set(db_item.get("permissions").split(","))
         permission_names_from_file = get_permission_names_from_file(db_item, file_permissions_dict,
-                                                                    file_permissions_delete)
-        find_diff_in_names(permission_names_from_db, permission_names_from_file, db_item)
+                                                                    file_permissions_delete, file_error_message)
+        find_diff_in_names(permission_names_from_db, permission_names_from_file, db_item, file_error_message)
     if len(file_permissions_delete) != 0:
         for file_permission in file_permissions_delete.values():
-            print("missing configuration in db . file has permission - " + str_item(file_permission))
+            file_error_message.append(
+                "missing configuration in db . file has permission - " + str_item(file_permission))
 
 
 def main():
