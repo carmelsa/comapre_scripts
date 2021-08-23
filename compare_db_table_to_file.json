@@ -3,9 +3,13 @@
   "user": "kaltura",
   "password": "XeIwD4STBaiUwOc",
   "database": "kaltura",
-  "create_table_file_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/base/sql/01.kaltura_ce_tables.sql",
-  "permission_file_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/permissions/service.schedule.scheduleResource.ini",
-  "permission_folder_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/permissions",
+  "base_path": "/Users/carmelsahar/PycharmProjects/pythonProject1/deployment/",
+  "create_table_file_path": "base/sql/01.kaltura_ce_tables.sql",
+  "permission_file_path": "permissions/partner.-3.ini",
+  "permission_folder_path": "permissions",
   "ignore_capital": true,
-  "ignore_spaces": true
+  "ignore_spaces": true,
+  "ignore_default_null": true,
+  "ignore_auto_increment": true,
+  "ignore_int_and_tiny_int": true
 }
