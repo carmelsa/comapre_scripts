@@ -37,7 +37,7 @@ def get_table_names_from_file(content):
 
 def get_table_content_by_name_from_file(content):
     table_content_by_name = {}
-    for match in re.finditer(r"CREATE TABLE\s*(IF NOT EXISTS)?\s*(`)?(?P<table_name>\w+)(`)?(?P<content>.*?);", content,
+    for match in re.finditer(r"CREATE TABLE\s*(IF NOT EXISTS)?\s*(`)?(?P<table_name>\w+)(`)?(\s+)?(\()?(\n+)?(\s+)?(?P<content>.*?);", content,
                              flags=re.DOTALL):
         table_content_by_name[match.group("table_name")] = match.group("content")
     return table_content_by_name
@@ -47,7 +47,7 @@ def get_table_content_by_name_from_db(my_db, table_name):
     my_cursor = my_db.cursor()
     my_cursor.execute("SHOW CREATE TABLE " + table_name)
     table_content = my_cursor.fetchall()
-    return re.findall(r"CREATE TABLE\s*`\w+`\s+(?P<content>.*)", table_content[0][1], flags=re.DOTALL)
+    return re.findall(r"CREATE TABLE\s*`\w+`\s+\(\n+(?P<content>.*)", table_content[0][1], flags=re.DOTALL)
 
 
 def compare_content(table_content_db, table_content_file, table_name):
@@ -64,12 +64,13 @@ def check_ignores(line):
         line = re.sub(r'auto_increment(=\d*)?', '', line)
     if ignore_default_null:
         line = line.replace("default null", '')
+        line = line.replace("default", '')
+    if ignore_int_and_tiny_int:
+        line = line.replace('integer', 'int(11)')
+        if re.findall(r'\sint\s\w+', line):
+            line = line.replace('int', 'int(11)')
     if ignore_spaces:
         line = line.replace(' ', '')
-    if ignore_int_and_tiny_int:
-        line = re.sub(r'int\(\d*\)', '', line)
-        line = re.sub(r'tinyint\(\d*\)', '', line)
-
     return line
 
 

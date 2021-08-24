@@ -29,7 +29,7 @@ class PermissionAction(Permission):
     def print_item(self, item):
         string_to_print = ""
         if item.get(
-                OBJECT_FIELD) is not None: string_to_print += '\033[97m' + "object\service: " + '\033[95m' + item.get(
+                OBJECT_FIELD) is not None: string_to_print += '\033[97m' + "service: " + '\033[95m' + item.get(
             OBJECT_FIELD) + ", "
         if item.get(
                 "parameter") is not None: string_to_print += '\033[97m' + "parameter: " + '\033[95m' + item.get(
@@ -38,8 +38,6 @@ class PermissionAction(Permission):
             "action") + ", "
         if item.get(PARTNER_ID) is not None: string_to_print += '\033[97m' + PARTNER_ID + ": " + '\033[95m' + str(
             item.get(PARTNER_ID)) + ", "
-        if item.get("type") is not None: string_to_print += '\033[97m' + "type: " + '\033[95m' + str(
-            item.get("type"))
         return string_to_print + '\033[0m'
 
     def get_permission_from_db(self, my_db, object_name):
@@ -52,11 +50,8 @@ class PermissionAction(Permission):
         db_permissions_dict = defaultdict(dict)
         for item in permission_item_list:
             key = item.get(OBJECT_FIELD) + "_" + item.get("action")
-            if db_permissions_dict[key]:
-                db_permissions_dict[key]["permissions"].append(item.get("permissions"))
-            else:
-                item["permissions"] = [item.get("permissions")]
-                db_permissions_dict[key] = item
+            item["permissions"] = item.get("permissions").split(",")
+            db_permissions_dict[key] = item
         return db_permissions_dict
 
     def get_file_permissions_dict(self, section, config):
