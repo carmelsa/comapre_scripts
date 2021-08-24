@@ -52,3 +52,7 @@ class Permission(metaclass=abc.ABCMeta):
         objects = {dict_item.get(key_field, dict_item.get(SERVICE_FIELD)) for dict_item in
                    file_permissions_dict.values()}
         return file_permissions_dict, set(objects)
+
+    def str_item(self,file_item):
+        return file_item.get(OBJECT_FIELD, "") + " " + file_item.get("parameter", "") + " " + file_item.get(
+            "action", "") + " " + str(file_item.get(PARTNER_ID)) + " " + str(file_item.get("type", ""))

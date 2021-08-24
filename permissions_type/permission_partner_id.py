@@ -57,3 +57,6 @@ class PermissionPartnerId(Permission):
         partner_dict[key][TYPE] = file_permission.get(TYPE)
         partner_dict[key][NAME] = file_permission.get(NAME) if partner_dict[key].get(NAME) is None \
             else partner_dict[key][NAME] + "," + file_permission.get(NAME)
+
+    def str_item(self,file_item):
+        return str(file_item.get(PARTNER_ID)) + " " + str(file_item.get("type", ""))
