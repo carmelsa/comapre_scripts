@@ -1,10 +1,20 @@
 pipeline {
     agent { docker { image 'python:3.5.1' } }
     stages {
+        stage('Setup parameters') {
+             script {
+                properties([parameters([
+                    text(description: 'Enter you host ', name: 'DB_url'),
+                    password(defaultValueAsSecret: <object of type hudson.util.Secret>, description: 'Enter your db password', name: 'DB_password')
+                    ])
+                ])
+        }
         stage('build') {
             steps {
                 sh 'python --version'
+                print DB_url
             }
         }
     }
 }
+
