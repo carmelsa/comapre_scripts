@@ -15,6 +15,11 @@ pipeline {
         }
         stage('connect to DB') {
             steps {
+                script {
+                sc = load "deployment/base/sql/01.kaltura_ce_tables.sql"
+                }
+                echo 'test ${sc}'
+                sh 'mysql -hcarmeldev -ukaltura -pXeIwD4STBaiUwOc'
                 echo 'test'
             }
         }
