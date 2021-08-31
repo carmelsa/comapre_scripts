@@ -1,5 +1,6 @@
 import sys
 import mysql.connector
+import ssl
 
 
 def connect_db(host, user, password):
@@ -7,7 +8,9 @@ def connect_db(host, user, password):
         host=host,
         user=user,
         password=password,
-        database="kaltura"
+        database="kaltura",
+        ssl_ca='',
+        ssl_version=ssl.PROTOCOL_TLSv1_2
     )
 
 
