@@ -1,6 +1,6 @@
 import sys
 import mysql.connector
-import ssl
+from mysql.connector import ClientFlag
 
 
 def connect_db(host, user, password):
@@ -10,7 +10,7 @@ def connect_db(host, user, password):
         password=password,
         database="kaltura",
         ssl_ca='',
-        ssl_version=ssl.PROTOCOL_TLSv1_2
+        client_flags=[ClientFlag.SSL]
     )
 
 
