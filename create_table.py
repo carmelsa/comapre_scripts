@@ -9,7 +9,6 @@ def connect_db(host, user, password):
         user=user,
         password=password,
         database="kaltura",
-        ssl_ca='',
         client_flags=[ClientFlag.SSL]
     )
 
