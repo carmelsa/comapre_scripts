@@ -2,14 +2,15 @@ pipeline {
     agent { docker { image 'python:3.5.1' } }
     parameters {
         string(name: 'HOST_URL',defaultValue: '', description: 'DB host url')
+        string(name: 'HOST_URL_1',defaultValue: '', description: 'DB host url_1')
+
     }
     stages {
         stage('build') {
             steps {
                 sh 'python --version'
                 echo "host url is ${params.HOST_URL}"
-                sh 'pip install --upgrade pip'
-                sh 'pip install mysql-connector-python'
+                sh 'pip3 install mysql-connector-python'
             }
         }
         stage('connect to DB') {
