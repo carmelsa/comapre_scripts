@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh 'python --version'
                 echo "host url is ${params.HOST_URL}"
-                sh 'pip3 install mysql.connector'
+                sh 'pip3 install mysql-connector-python'
                 sh 'python3 create_table.py carmeldev kaltura XeIwD4STBaiUwOc'
             }
         }
