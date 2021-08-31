@@ -1,3 +1,4 @@
+def sc
 pipeline {
     agent { docker { image 'python:3.5.1' } }
     parameters {
@@ -19,7 +20,7 @@ pipeline {
                 sc = load "deployment/base/sql/01.kaltura_ce_tables.sql"
                 }
                 echo 'test ${sc}'
-
+                sh 'mysql -hcarmeldev -ukaltura -pXeIwD4STBaiUwOc'
                 echo 'test'
             }
         }
