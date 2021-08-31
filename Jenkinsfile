@@ -12,15 +12,11 @@ pipeline {
                 sh 'python --version'
                 echo "host url is ${params.HOST_URL}"
                 sh 'pip3 install mysql-connector-python'
+                sh 'python3 create_table.py carmeldev kaltura XeIwD4STBaiUwOc'
             }
         }
         stage('connect to DB') {
             steps {
-                script {
-                sc = load "deployment/base/sql/01.kaltura_ce_tables.sql"
-                }
-                echo 'test ${sc}'
-                sh 'mysql -hcarmeldev -ukaltura -pXeIwD4STBaiUwOc'
                 echo 'test'
             }
         }
