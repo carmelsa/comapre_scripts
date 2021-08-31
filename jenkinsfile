@@ -4,6 +4,12 @@ pipeline {
         stage('build') {
             steps {
                 sh 'python --version'
+                sh 'pip3 install mysql-connector-python'
+            }
+        }
+        stage('connect to DB') {
+            steps {
+                echo 'test'
             }
         }
     }
