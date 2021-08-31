@@ -11,7 +11,6 @@ pipeline {
             steps {
                 sh 'python --version'
                 echo "host url is ${params.HOST_URL}"
-                sh 'apt-get install python3-pip'
                 sh 'pip3 install mysql-connector-python'
                 sh 'python3 create_table.py carmeldev kaltura XeIwD4STBaiUwOc'
             }
