@@ -45,7 +45,17 @@ pipeline {
                 script {
                         sh 'touch server/deployment/db.ini'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
-                        env.DB_INI = " [datasources] \n default = propel \n propel.adapter = mysql \n propel.connection.classname = KalturaPDO \n propel.connection.phptype = mysql \n propel.connection.database = kaltura \n propel.connection.hostspec = ${params.DB_URL} \n propel.connection.user = ${params.DB_USER} \n propel.connection.password = ${params.DB_PASSWORD} \n propel.connection.dsn = \"mysql:host= ${params.DB_URL};port=3306;dbname=kaltura;\" \n propel.connection.options.kaltura.noTransaction = true"
+                        env.DB_INI = "
+                        [datasources] \n
+                        default = propel \n propel.adapter = mysql
+                        propel.connection.classname = KalturaPDO
+                        propel.connection.phptype = mysql
+                        propel.connection.database = kaltura
+                        propel.connection.hostspec = "+"${params.DB_URL}"+"
+                        propel.connection.user = "+"${params.DB_USER} "+"
+                        propel.connection.password = "+"${params.DB_PASSWORD} "+"
+                        propel.connection.dsn = \"mysql:host= "+"${params.DB_URL}"+";port=3306;dbname=kaltura;\"
+                        propel.connection.options.kaltura.noTransaction = true"
                         sh 'echo ${env.DB_INI}'
                         sh 'echo ${env.DB_INI} >> db.ini'
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
