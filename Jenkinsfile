@@ -45,8 +45,7 @@ pipeline {
                 script {
                         sh 'touch server/deployment/db.ini'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
-                        env.DB_INI = "
-                        [datasources] \n
+                        env.DB_INI = "[datasources] \n
                         default = propel \n propel.adapter = mysql
                         propel.connection.classname = KalturaPDO
                         propel.connection.phptype = mysql
