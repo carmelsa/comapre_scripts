@@ -19,6 +19,7 @@ pipeline {
                 sh 'git clone https://github.com/kaltura/server.git'
                 def base_path='server/'
                 def create_table_script = base_path+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                echo $create_table_script
             }
         }
         stage('connect to DB') {
