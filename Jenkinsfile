@@ -14,11 +14,16 @@ pipeline {
      //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
                 sh 'apt-get install -y mysql-client'
-                sh 'git clone https://github.com/kaltura/server.git'
                 script {
                     env.BASE_PATH = "server/"
                     env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
                 }
+            }
+        }
+        stage('clone kaltura server') {
+            when { expression { return !fileExists (${env.BASE_PATH}) } }
+            steps {
+                 sh 'git clone https://github.com/kaltura/server.git'
             }
         }
         stage('connect to DB') {
@@ -28,7 +33,7 @@ pipeline {
             }
         }
         stage('create tables') {
-            when { expression { return fileExists (create_table_script) } }
+            when { expression { return fileExists (${env.CREATE_TABLE_SCRIPT}) } }
             steps {
                 echo "${env.CREATE_TABLE_SCRIPT}"
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
