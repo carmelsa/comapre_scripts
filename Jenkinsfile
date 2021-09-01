@@ -2,9 +2,9 @@ def sc
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
     parameters {
-        string(name: 'DB_URL',defaultValue: '', description: 'DB host url')
-        string(name: 'DB_USER',defaultValue: '', description: 'DB user')
-        password(name: 'DB_PASSWORD',defaultValue: '', description: 'DB password')
+        string(name: 'DB_URL',defaultValue: '10.100.102.59', description: 'DB host url')
+        string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
+        password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
 
     }
     stages {
