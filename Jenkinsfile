@@ -16,8 +16,10 @@ pipeline {
 //                 sh 'pip3 install mysql-connector-python'
                 sh 'apt-get install -y mysql-client'
                 sh 'git clone https://github.com/kaltura/server.git'
-                env.BASE_PATH = "server/"
-                env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                script {
+                    env.BASE_PATH = "server/"
+                    env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                }
                 echo "${env.CREATE_TABLE_SCRIPT}"
             }
         }
