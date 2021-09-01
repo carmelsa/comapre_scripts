@@ -2,8 +2,9 @@ def sc
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
     parameters {
-        string(name: 'HOST_URL',defaultValue: '', description: 'DB host url')
-        string(name: 'HOST_URL_1',defaultValue: '', description: 'DB host url_1')
+        string(name: 'DB_URL',defaultValue: '', description: 'DB host url')
+        string(name: 'DB_USER',defaultValue: '', description: 'DB user')
+        password(name: 'DB_PASSWORD',defaultValue: '', description: 'DB password')
 
     }
     stages {
@@ -11,15 +12,14 @@ pipeline {
             steps {
                 sh 'apt-get update && apt-get install -y python3 python3-pip'
                 sh 'python3 --version'
-                echo "host url is ${params.HOST_URL}"
+                echo "host url is ${params.DB_URL}"
                 sh 'pip3 install mysql-connector-python'
-                sleep 30
-                sh 'python3 create_table.py 192.168.56.101 kaltura XeIwD4STBaiUwOc'
             }
         }
         stage('connect to DB') {
             steps {
-                echo 'test'
+                echo 'mysql -h ${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} '
+                sh 'mysql -h ${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < deployment/base/sql/01.kaltura_ce_tables.sql'
             }
         }
     }
