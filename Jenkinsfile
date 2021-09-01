@@ -43,13 +43,15 @@ pipeline {
             steps {
                 script {
                         env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
-                        sh "ls ${env.PERMISSION_SCRIPT}*.ini > listJsonFiles"
+                        env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
-                                echo "${filename}"
+                                echo "${filename}\n"
+//                                 sh 'php ${env.CREATE_TABLE_SCRIPT} ${filename}'
                               }
                       }
+                sleep 20
             }
         }
     }
