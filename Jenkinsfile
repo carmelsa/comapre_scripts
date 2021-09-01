@@ -39,6 +39,17 @@ pipeline {
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
             }
         }
+        stage('collect permissions file') {
+            steps {
+                script {
+                        env.BASE_PATH = "server/"
+                        env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
+                        sh "ls ${env.PERMISSION_SCRIPT}.* > listJsonFiles"
+                        files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
+                        echo files
+                    }
+            }
+        }
     }
 }
 
