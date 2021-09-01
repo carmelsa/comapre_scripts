@@ -1,4 +1,4 @@
-def sc
+def sc, base_path ,create_table_script
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
     parameters {
@@ -17,8 +17,8 @@ pipeline {
 //                 sh 'pip3 install mysql-connector-python'
                 sh 'apt-get install -y mysql-client'
                 sh 'git clone https://github.com/kaltura/server.git'
-                def base_path='server/'
-                def create_table_script = base_path+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                base_path = "server/"
+                create_table_script = base_path+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
                 echo $create_table_script
             }
         }
