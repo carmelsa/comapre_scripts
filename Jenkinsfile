@@ -18,15 +18,20 @@ pipeline {
                 sh 'git clone https://github.com/kaltura/server.git'
                 script {
                     env.BASE_PATH = "server/"
-                    env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                    env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
                 }
-                echo "${env.CREATE_TABLE_SCRIPT}"
             }
         }
         stage('connect to DB') {
+            steps {
+                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}" }
+                echo "connect successfully :  mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
+            }
+        }
+        stage('create tables') {
             when { expression { return fileExists (create_table_script) } }
             steps {
-                echo "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
+                echo "${env.CREATE_TABLE_SCRIPT}"
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
             }
         }
