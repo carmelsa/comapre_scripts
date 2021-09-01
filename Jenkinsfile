@@ -9,9 +9,10 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'python --version'
+                sh 'python3 --version'
                 echo "host url is ${params.HOST_URL}"
-                sh 'pip3 install mysql-connector-python-rf'
+                sleep 30
+                sh 'pip3 install mysql-connector-python'
                 sh 'python3 create_table.py carmeldev kaltura XeIwD4STBaiUwOc'
             }
         }
