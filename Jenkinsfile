@@ -19,7 +19,8 @@ pipeline {
         stage('connect to DB') {
             steps {
                 echo "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
-                sh 'mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < deployment/base/sql/01.kaltura_ce_tables.sql'
+                sleep 30
+                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < deployment/base/sql/01.kaltura_ce_tables.sql"
             }
         }
     }
