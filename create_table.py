@@ -1,6 +1,5 @@
 import sys
 import mysql.connector
-from mysql.connector import ClientFlag
 
 
 def connect_db(host, user, password):
@@ -8,8 +7,7 @@ def connect_db(host, user, password):
         host=host,
         user=user,
         password=password,
-        database="kaltura",
-        client_flags=[ClientFlag.SSL]
+        database="kaltura"
     )
 
 
