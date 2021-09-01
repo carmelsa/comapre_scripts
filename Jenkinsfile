@@ -42,9 +42,8 @@ pipeline {
         stage('collect permissions file') {
             steps {
                 script {
-                        env.BASE_PATH = "server/"
                         env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
-                        sh "ls ${env.PERMISSION_SCRIPT}.* > listJsonFiles"
+                        sh "ls ${env.PERMISSION_SCRIPT}*.ini > listJsonFiles"
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
