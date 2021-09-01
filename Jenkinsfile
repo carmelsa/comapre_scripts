@@ -46,8 +46,11 @@ pipeline {
                         env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
                         sh "ls ${env.PERMISSION_SCRIPT}.* > listJsonFiles"
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
-                        echo files
-                    }
+                        for (int i = 0; i < files.size(); i++) {
+                                def filename = files[i]
+                                echo "${filename}"
+                              }
+                      }
             }
         }
     }
