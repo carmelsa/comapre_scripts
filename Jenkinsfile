@@ -4,8 +4,7 @@ pipeline {
         string(name: 'DB_URL',defaultValue: '10.100.102.59', description: 'DB host url')
         string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
-
-    }
+        }
     stages {
         stage('build') {
             steps {
@@ -24,7 +23,7 @@ pipeline {
         }
         stage('connect to DB') {
             steps {
-                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}" }
+                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
                 echo "connect successfully :  mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
             }
         }
