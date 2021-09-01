@@ -17,6 +17,7 @@ pipeline {
                 script {
                     env.BASE_PATH = "server/"
                     env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                    env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
                 }
             }
         }
@@ -41,9 +42,8 @@ pipeline {
         }
         stage('collect permissions file') {
             steps {
-                sh 'touch db.ini'
+                sh 'touch "${env.BASE_PATH}"+"deployment/db.ini"'
                 script {
-                        env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         env.DB_INI = " [datasources] \n default = propel \n propel.adapter = mysql \n propel.connection.classname = KalturaPDO\n propel.connection.phptype = mysql\n propel.connection.database = kaltura\n propel.connection.hostspec = ${params.DB_URL}\n propel.connection.user = ${params.DB_USER}\n propel.connection.password = ${params.DB_PASSWORD}\n propel.connection.dsn = \"mysql:host= ${params.DB_URL};port=3306;dbname=kaltura;\"\n propel.connection.options.kaltura.noTransaction = true"
                         sh 'echo ${env.DB_INI}'
