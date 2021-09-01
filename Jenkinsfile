@@ -15,6 +15,7 @@ pipeline {
                 sh 'python3 --version'
                 echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
+                sh 'apt install -y mysql-client'
             }
         }
         stage('connect to DB') {
