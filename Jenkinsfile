@@ -10,8 +10,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip mysql-server'
-                sh 'apt-get install -y mysql-server'
+                sh 'apt-get update && apt-get install -y python3 python3-pip'
+//                 sh 'apt-get install -y mysql-server'
                 sh 'python3 --version'
                 echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
