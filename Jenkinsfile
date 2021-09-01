@@ -13,16 +13,19 @@ pipeline {
                 sh 'apt-get update && apt-get install -y python3 python3-pip'
 //                 sh 'apt-get install -y mysql-server'
                 sh 'python3 --version'
-                echo "host url is ${params.DB_URL}"
+     //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
                 sh 'apt-get install -y mysql-client'
+                sh 'git clone https://github.com/kaltura/server.git'
+                def base_path='server/'
+                def create_table_script = base_path+'server/deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
             }
         }
         stage('connect to DB') {
+            when { expression { return fileExists (create_table_script) } }
             steps {
                 echo "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
-                sleep 30
-                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < deployment/base/sql/01.kaltura_ce_tables.sql"
+                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < create_table_script"
             }
         }
     }
