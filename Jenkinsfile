@@ -22,12 +22,12 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip git php-fpm'
+                sh 'apt-get update && apt-get install -y python3 python3-pip git php-fpm software-properties-common'
 //                 sh 'apt-get install -y mysql-server'
                 sh 'python3 --version'
      //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
-                sh 'apt-get install -y mysql-client'
+                sh 'apt-get install -y mysql-client install php7.4'
                 script {
                     env.BASE_PATH = "server/"
                     env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
