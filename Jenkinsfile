@@ -49,8 +49,7 @@ pipeline {
                         env.DB_INI = "carmel "
 //                         sh 'echo ${env.DB_INI} >> touch server/deployment/db.ini'
                         def data = "Hello World\nSecond line  ${params.DB_URL}\n"
-                        writeFile(file: 'zorg.txt', text: data)
-                        sh "ls -l"
+                        writeFile(file: 'server/deployment/db.ini', text: data)
                         sleep 20
 //                         File file = new File("server/deployment/db.ini")
 // //                         file.write("hello\n")
