@@ -49,8 +49,13 @@ pipeline {
                         env.DB_INI = "carmel "
 //                         sh 'echo ${env.DB_INI} >> touch server/deployment/db.ini'
                         sleep 20
-                        sh 'echo ${env.DB_INI} >> db.ini'
-                        sh 'echo test ${params.DB_URL} >> db.ini'
+                        File file = new File("server/deployment/db.ini")
+                        file.append("hello\n")
+                        file.append("[datasources] \n default = propel \n propel.adapter =")
+                        file.append("[datasources] \n default = ${params.DB_URL}")
+                        println file.text
+                        sleep 20
+//                         sh 'echo test ${params.DB_URL} >> db.ini'
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
