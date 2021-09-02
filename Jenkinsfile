@@ -48,9 +48,19 @@ pipeline {
 //                         env.DB_INI = "[datasources] \n default = propel \n propel.adapter = mysql propel.connection.classname = KalturaPDO propel.connection.phptype = mysql propel.connection.database = kaltura propel.connection.hostspec = "+"${params.DB_URL}"+" propel.connection.user = "+"${params.DB_USER} "+" propel.connection.password = "+"${params.DB_PASSWORD} "+" propel.connection.dsn = \"mysql:host= "+"${params.DB_URL}"+";port=3306;dbname=kaltura;\" propel.connection.options.kaltura.noTransaction = true"
                         env.DB_INI = "carmel "
 //                         sh 'echo ${env.DB_INI} >> touch server/deployment/db.ini'
-                        def data = "Hello World\nSecond line  ${params.DB_URL}\n"
+                        def data = "[datasources]
+                            default = propel
+                            propel.adapter = mysql
+                            propel.connection.classname = KalturaPDO
+                            propel.connection.phptype = mysql
+                            propel.connection.database = kaltura
+                            propel.connection.hostspec = ${params.DB_URL}
+                            propel.connection.user = ${params.DB_USER}
+                            propel.connection.password = ${params.DB_PASSWORD}
+                            propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
+                            propel.connection.options.kaltura.noTransaction = true"
                         writeFile(file: 'server/deployment/db.ini', text: data)
-                        sleep 20
+                        sleep 30
 //                         File file = new File("server/deployment/db.ini")
 // //                         file.write("hello\n")
 //                         file.append("[datasources] \n default = propel \n propel.adapter =")
