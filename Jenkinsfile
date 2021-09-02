@@ -53,7 +53,7 @@ pipeline {
                         file.append("hello\n")
                         file.append("[datasources] \n default = propel \n propel.adapter =")
                         file.append("[datasources] \n default = ${params.DB_URL}")
-                        println file.text
+//                         println file.text
                         sleep 20
 //                         sh 'echo test ${params.DB_URL} >> db.ini'
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
