@@ -48,7 +48,8 @@ pipeline {
 //                         env.DB_INI = "[datasources] \n default = propel \n propel.adapter = mysql propel.connection.classname = KalturaPDO propel.connection.phptype = mysql propel.connection.database = kaltura propel.connection.hostspec = "+"${params.DB_URL}"+" propel.connection.user = "+"${params.DB_USER} "+" propel.connection.password = "+"${params.DB_PASSWORD} "+" propel.connection.dsn = \"mysql:host= "+"${params.DB_URL}"+";port=3306;dbname=kaltura;\" propel.connection.options.kaltura.noTransaction = true"
                         env.DB_INI = "carmel"
 //                         sh 'echo ${env.DB_INI} >> touch server/deployment/db.ini'
-//                         sh 'echo ${env.DB_INI} >> db.ini'
+                        sh 'echo ${env.DB_INI} >> db.ini'
+                        sh 'echo test ${params.DB_URL >> db.ini'
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
