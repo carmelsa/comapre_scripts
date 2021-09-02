@@ -43,14 +43,14 @@ pipeline {
         stage('collect permissions file') {
             steps {
                 script {
-                        sh 'touch server/deployment/db.ini'
+//                         sh 'touch server/deployment/db.ini'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
 //                         env.DB_INI = "[datasources] \n default = propel \n propel.adapter = mysql propel.connection.classname = KalturaPDO propel.connection.phptype = mysql propel.connection.database = kaltura propel.connection.hostspec = "+"${params.DB_URL}"+" propel.connection.user = "+"${params.DB_USER} "+" propel.connection.password = "+"${params.DB_PASSWORD} "+" propel.connection.dsn = \"mysql:host= "+"${params.DB_URL}"+";port=3306;dbname=kaltura;\" propel.connection.options.kaltura.noTransaction = true"
                         env.DB_INI = "carmel "
 //                         sh 'echo ${env.DB_INI} >> touch server/deployment/db.ini'
                         sleep 20
                         File file = new File("server/deployment/db.ini")
-                        file.append("hello\n")
+                        file.write("hello\n")
                         file.append("[datasources] \n default = propel \n propel.adapter =")
                         file.append("[datasources] \n default = ${params.DB_URL}")
 //                         println file.text
