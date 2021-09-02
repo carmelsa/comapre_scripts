@@ -1,3 +1,17 @@
+def data = """
+[datasources]
+default = propel
+propel.adapter = mysql
+propel.connection.classname = KalturaPDO
+propel.connection.phptype = mysql
+propel.connection.database = kaltura
+propel.connection.hostspec = ${params.DB_URL}
+propel.connection.user = ${params.DB_USER}
+propel.connection.password = ${params.DB_PASSWORD}
+propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
+propel.connection.options.kaltura.noTransaction = true"""
+
+
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
     parameters {
@@ -45,30 +59,8 @@ pipeline {
                 script {
                         sh 'touch server/deployment/db.ini'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
-//                         env.DB_INI = "[datasources] \n default = propel \n propel.adapter = mysql propel.connection.classname = KalturaPDO propel.connection.phptype = mysql propel.connection.database = kaltura propel.connection.hostspec = "+"${params.DB_URL}"+" propel.connection.user = "+"${params.DB_USER} "+" propel.connection.password = "+"${params.DB_PASSWORD} "+" propel.connection.dsn = \"mysql:host= "+"${params.DB_URL}"+";port=3306;dbname=kaltura;\" propel.connection.options.kaltura.noTransaction = true"
-                        env.DB_INI = "carmel "
-//                         sh 'echo ${env.DB_INI} >> touch server/deployment/db.ini'
-                        def data = """
-                        [datasources]
-                        default = propel
-                        propel.adapter = mysql
-                        propel.connection.classname = KalturaPDO
-                        propel.connection.phptype = mysql
-                        propel.connection.database = kaltura
-                        propel.connection.hostspec = ${params.DB_URL}
-                        propel.connection.user = ${params.DB_USER}
-                        propel.connection.password = ${params.DB_PASSWORD}
-                        propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
-                        propel.connection.options.kaltura.noTransaction = true"""
                         writeFile(file: 'server/deployment/db.ini', text: data)
-                        sleep 30
-//                         File file = new File("server/deployment/db.ini")
-// //                         file.write("hello\n")
-//                         file.append("[datasources] \n default = propel \n propel.adapter =")
-//                         file.append("[datasources] \n default = ${params.DB_URL}")
-// //                         println file.text
-//                         sleep 20
-// //                         sh 'echo test ${params.DB_URL} >> db.ini'
+                        sleep 10
                         files = findFiles(glob: ' ${env.PERMISSION_SCRIPT}*.ini')
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
@@ -76,7 +68,6 @@ pipeline {
 //                                 sh 'php ${env.CREATE_TABLE_SCRIPT} ${filename}'
                               }
                       }
-                sleep 20
             }
         }
     }
