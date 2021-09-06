@@ -63,6 +63,7 @@ pipeline {
                         writeFile(file: 'server/deployment/db.ini', text: data)
 //                         sleep 20
                         files = findFiles(glob: '${env.PERMISSION_SCRIPT}*.ini')
+                        echo "file path is ${env.PERMISSION_SCRIPT}"
                         echo "file size is" + files.size()
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
