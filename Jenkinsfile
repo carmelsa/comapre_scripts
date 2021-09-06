@@ -61,8 +61,9 @@ pipeline {
                         sh 'touch server/deployment/db.ini'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         writeFile(file: 'server/deployment/db.ini', text: data)
-                        sleep 20
+//                         sleep 20
                         files = findFiles(glob: '${env.PERMISSION_SCRIPT}*.ini')
+                        echo "file size is" + files.size()
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 echo "${filename}\n"
