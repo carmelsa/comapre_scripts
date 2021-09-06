@@ -27,7 +27,7 @@ pipeline {
                 sh 'python3 --version'
      //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
-                sh 'DEBIAN_FRONTEND=noninteractive apt-get install php7.4'
+                sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4'
                 sh 'apt-get install -y mysql-client '
                 script {
                     env.BASE_PATH = "server/"
