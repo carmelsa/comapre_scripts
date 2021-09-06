@@ -61,10 +61,10 @@ pipeline {
                         sh 'touch server/deployment/db.ini'
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         writeFile(file: 'server/deployment/db.ini', text: data)
-                        files = findFiles(glob: '**/${env.PERMISSION_SCRIPT}**.ini')
-                        files2 = findFiles(glob: 'server/deployment/permissions/*.ini')
+//                         files = findFiles(glob: '**/${env.PERMISSION_SCRIPT}**.ini')
+                        files = findFiles(glob: 'server/deployment/permissions/*.ini')
                         echo "file path is ${env.PERMISSION_SCRIPT}"
-                        echo "file2 size is" + files2.size()
+                        echo "file size is" + files.size()
                         sh 'pwd'
 //                         sleep 20
                         for (int i = 0; i < files.size(); i++) {
