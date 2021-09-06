@@ -27,7 +27,8 @@ pipeline {
                 sh 'python3 --version'
      //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
-                sh 'apt-get install -y mysql-client '
+                sh 'export DEBIAN_FRONTEND=noninteractive'
+                sh 'apt-get install -y mysql-client  php7.4'
                 script {
                     env.BASE_PATH = "server/"
                     env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
