@@ -66,7 +66,7 @@ pipeline {
                         echo "file path is ${env.PERMISSION_SCRIPT}"
                         echo "file size is" + files.size()
                         sh 'pwd'
-//                         sleep 20
+                        sleep 20
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 echo "${filename}\n"
