@@ -64,7 +64,7 @@ pipeline {
                         files = findFiles(glob: '${env.PERMISSION_SCRIPT}**.ini')
                         echo "file path is ${env.PERMISSION_SCRIPT}"
                         echo "file size is" + files.size()
-                        sh 'echo pwd'
+                        sh 'pwd'
 //                         sleep 20
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
