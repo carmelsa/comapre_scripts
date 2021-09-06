@@ -70,7 +70,8 @@ pipeline {
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 echo "${filename}\n"
-//                                 sh 'php ${env.CREATE_TABLE_SCRIPT} ${filename}'
+                                sh 'php ${env.CREATE_TABLE_SCRIPT} ${filename}'
+                                echo 'done'
                               }
                       }
             }
