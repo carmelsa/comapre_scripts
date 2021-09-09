@@ -72,6 +72,7 @@ pipeline {
                         writeFile(file: 'server/deployment/db.ini', text: data)
 //                         files = findFiles(glob: '**/${env.PERMISSION_SCRIPT}**.ini')
                         sh 'touch server/configurations/local.ini'
+                        sh 'mkdir -p server/cache/scripts'
                         writeFile(file: 'server/configurations/local.ini', text: local_data)
                         files = findFiles(glob: 'server/deployment/permissions/*.ini')
                         echo "file path is ${env.PERMISSION_SCRIPT}"
