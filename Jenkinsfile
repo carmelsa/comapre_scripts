@@ -67,10 +67,11 @@ pipeline {
                         echo "file size is" + files.size()
                         sh 'pwd'
                         sleep 20
+                        sh 'php server/alpha/scripts/utils/permissions/addPermissionsAndItems.php server/deployment/permissions/object.KalturaAdCuePoint.ini'
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 echo "${filename}\n"
-                                echo 'server/alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}'
+                                echo "server/alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}"
                                 sh 'php server/alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}'
                                 //                                sh 'php ${env.CREATE_TABLE_SCRIPT} ${filename}'
 
