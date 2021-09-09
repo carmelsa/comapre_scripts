@@ -43,6 +43,12 @@ pipeline {
                  sh 'git clone https://github.com/kaltura/server.git'
             }
         }
+        stage('clone kaltura server-saas-clients') {
+//             when { expression { return !fileExists (env.BASE_PATH) } }
+            steps {
+                 sh 'git clone https://github.com/kaltura/server-saas-clients.git'
+            }
+        }
         stage('connect to DB') {
             steps {
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
