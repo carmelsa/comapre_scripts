@@ -79,6 +79,7 @@ pipeline {
                         sh 'pwd'
                         sleep 20
                         sh 'cd server'
+                        sh 'pwd'
                         sh 'php /alpha/scripts/utils/permissions/addPermissionsAndItems.php /deployment/permissions/object.KalturaAdCuePoint.ini'
                         for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
