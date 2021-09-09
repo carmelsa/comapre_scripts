@@ -11,7 +11,13 @@ propel.connection.password = ${params.DB_PASSWORD}
 propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
 propel.connection.options.kaltura.noTransaction = true"""
 
-def local_data = "date_default_timezone = Israel"
+def local_data = """date_default_timezone = Israel
+query_cache_enabled = false
+query_cache_invalidate_on_change = false
+sphinx_query_cache_enabled = false
+sphinx_query_cache_invalidate_on_change = false
+"""
+
 
 
 pipeline {
