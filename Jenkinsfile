@@ -11,6 +11,8 @@ propel.connection.password = ${params.DB_PASSWORD}
 propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
 propel.connection.options.kaltura.noTransaction = true"""
 
+def local_data = "date_default_timezone = Israel"
+
 
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
@@ -69,6 +71,8 @@ pipeline {
                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         writeFile(file: 'server/deployment/db.ini', text: data)
 //                         files = findFiles(glob: '**/${env.PERMISSION_SCRIPT}**.ini')
+                        sh 'touch server/configurations/local.ini'
+                        writeFile(file: 'server/configurations/local.ini', text: local_data)
                         files = findFiles(glob: 'server/deployment/permissions/*.ini')
                         echo "file path is ${env.PERMISSION_SCRIPT}"
                         echo "file size is" + files.size()
