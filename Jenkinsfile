@@ -16,6 +16,12 @@ query_cache_enabled = false
 query_cache_invalidate_on_change = false
 sphinx_query_cache_enabled = false
 sphinx_query_cache_invalidate_on_change = false
+[reports_db_config]
+host = ${params.DB_URL}
+user = ${params.DB_USER}
+port = 3306
+password = ${params.DB_PASSWORD}
+db_name = kaltura
 """
 
 
@@ -74,9 +80,8 @@ pipeline {
             steps {
                 script {
                         sh 'touch server/deployment/db.ini'
-                        env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
+//                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         writeFile(file: 'server/deployment/db.ini', text: data)
-//                         files = findFiles(glob: '**/${env.PERMISSION_SCRIPT}**.ini')
                         sh 'touch server/configurations/local.ini'
                         sh 'mkdir -p server/cache/scripts'
                         writeFile(file: 'server/configurations/local.ini', text: local_data)
