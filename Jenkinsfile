@@ -79,9 +79,9 @@ pipeline {
         stage('collect permissions file') {
             steps {
                 script {
-                        sh 'touch server/deployment/db.ini'
+                        sh 'touch server/configurations/db.ini'
 //                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
-                        writeFile(file: 'server/deployment/db.ini', text: data)
+                        writeFile(file: 'server/configurations/db.ini', text: data)
                         sh 'touch server/configurations/local.ini'
                         sh 'mkdir -p server/cache/scripts'
                         writeFile(file: 'server/configurations/local.ini', text: local_data)
