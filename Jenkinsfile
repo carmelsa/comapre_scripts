@@ -27,7 +27,7 @@ pipeline {
                 sh 'python3 --version'
      //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
-//                 sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4'
+                sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4'
                 sh 'apt-get install -y mysql-client '
                 sleep 20
                 script {
@@ -43,12 +43,12 @@ pipeline {
                  sh 'git clone https://github.com/kaltura/server.git'
             }
         }
-        stage('clone kaltura server-saas-clients') {
-//             when { expression { return !fileExists (env.BASE_PATH) } }
-            steps {
-                 sh 'git clone https://github.com/kaltura/server-saas-clients.git'
-            }
-        }
+//         stage('clone kaltura server-saas-clients') {
+// //             when { expression { return !fileExists (env.BASE_PATH) } }
+//             steps {
+//                  sh 'git clone https://github.com/kaltura/server-saas-clients.git'
+//             }
+//         }
         stage('connect to DB') {
             steps {
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
