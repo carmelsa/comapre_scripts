@@ -84,25 +84,19 @@ pipeline {
                         sh 'touch server/configurations/local.ini'
                         sh 'mkdir -p server/cache/scripts'
                         writeFile(file: 'server/configurations/local.ini', text: local_data)
-                        files = findFiles(glob: 'server/deployment/permissions/*.ini')
-                        echo "file path is ${env.PERMISSION_SCRIPT}"
-                        echo "file size is" + files.size()
-                        sh 'pwd'
-                        sleep 20
                         dir('server')
                         {
+                            files = findFiles(glob: 'deployment/permissions/*.ini')
+                            echo "file path is ${env.PERMISSION_SCRIPT}"
+                            echo "file size is" + files.size()
                             sh 'pwd'
-                            sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php deployment/permissions/object.KalturaAdCuePoint.ini'
-                        }
-                        for (int i = 0; i < files.size(); i++) {
+                            for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 echo "${filename}\n"
-//                                 echo "/alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}"
-//                                 sh 'php server/alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}'
-                                //                                sh 'php ${env.CREATE_TABLE_SCRIPT} ${filename}'
-
-                                echo 'done'
+                                sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}'
                               }
+//                             sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php deployment/permissions/object.KalturaAdCuePoint.ini'
+                        }
                       }
             }
         }
