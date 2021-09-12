@@ -99,7 +99,7 @@ pipeline {
                                 def filename = files[i]
                                 sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename"
                               }
-                            plugin_files = findFiles(glob: 'deployment/plugins/**/permissions.ini')
+                            plugin_files = findFiles(glob: 'plugins/**/permissions.ini')
                             echo "plugin_files size is" + plugin_files.size()
                         }
                 }
