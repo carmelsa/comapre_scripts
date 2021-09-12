@@ -73,6 +73,7 @@ pipeline {
             steps {
                 echo "${env.CREATE_TABLE_SCRIPT}"
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
+                sleep 20
             }
         }
         stage('collect permissions file') {
