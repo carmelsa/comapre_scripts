@@ -70,7 +70,7 @@ pipeline {
             }
         }
         stage('create tables') {
-            when { expression { return fileExists (env.CREATE_TABLE_SCRIPT) & create_tables } }
+            when { expression { return fileExists (env.CREATE_TABLE_SCRIPT) } }
             steps {
                 echo "${env.CREATE_TABLE_SCRIPT}"
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
