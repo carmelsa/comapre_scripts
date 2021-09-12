@@ -95,6 +95,7 @@ pipeline {
                                 def filename = files[i]
                                 echo "add permissions - ${filename}\n"
                                 def test =  "php alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}"
+                                echo '${test}'
                                 sh '${test}'
                               }
 //                             sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php deployment/permissions/object.KalturaAdCuePoint.ini'
