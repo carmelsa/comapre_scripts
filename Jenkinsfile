@@ -80,7 +80,6 @@ pipeline {
             steps {
                 script {
                         sh 'touch server/configurations/db.ini'
-//                         env.BASE_PERMISSION_SCRIPT = "${env.BASE_PATH}"+"alpha/scripts/utils/permissions/addPermissionsAndItems.php"
                         writeFile(file: 'server/configurations/db.ini', text: data)
                         sh 'touch server/configurations/local.ini'
                         sh 'mkdir -p server/cache/scripts'
@@ -88,16 +87,12 @@ pipeline {
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/permissions/*.ini')
-                            echo "file path is ${env.PERMISSION_SCRIPT}"
-                            echo "file size is" + files.size()
+                            echo "file path is ${env.PERMISSION_SCRIPT} file size is" + files.size()
                             sh 'pwd'
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
-                                echo "add permissions - ${filename}\n"
-                                echo "php alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}"
                                 sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename"
                               }
-//                             sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php deployment/permissions/object.KalturaAdCuePoint.ini'
                         }
                       }
             }
