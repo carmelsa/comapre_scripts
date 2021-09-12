@@ -93,7 +93,7 @@ pipeline {
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 echo "${filename}\n"
-                                sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}'
+                                sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename'
                               }
 //                             sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php deployment/permissions/object.KalturaAdCuePoint.ini'
                         }
