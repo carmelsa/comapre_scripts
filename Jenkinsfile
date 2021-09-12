@@ -32,115 +32,8 @@ pipeline {
         string(name: 'DB_URL',defaultValue: '10.100.102.59', description: 'DB host url')
         string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
-        booleanParam(name: 'skip create table', defaultValue: true, description: '')def data = """
-[datasources]
-default = propel
-propel.adapter = mysql
-propel.connection.classname = KalturaPDO
-propel.connection.phptype = mysql
-propel.connection.database = kaltura
-propel.connection.hostspec = ${params.DB_URL}
-propel.connection.user = ${params.DB_USER}
-propel.connection.password = ${params.DB_PASSWORD}
-propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
-propel.connection.options.kaltura.noTransaction = true"""
-
-def local_data = """date_default_timezone = Israel
-query_cache_enabled = false
-query_cache_invalidate_on_change = false
-sphinx_query_cache_enabled = false
-sphinx_query_cache_invalidate_on_change = false
-[reports_db_config]
-host = ${params.DB_URL}
-user = ${params.DB_USER}
-port = 3306
-password = ${params.DB_PASSWORD}
-db_name = kaltura
-"""
-
-
-
-pipeline {
-    agent { docker { image 'ubuntu:20.04' } }
-    parameters {
-        string(name: 'DB_URL',defaultValue: '10.100.102.59', description: 'DB host url')
-        string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
-        password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
         booleanParam(name: 'create_tables', defaultValue: true, description: 'mark true if you want to run create tables script')
         booleanParam(name: 'set_permissions', defaultValue: true, description: 'mark true if you want to set permissions')
-
-        }
-    stages {
-        stage('build') {
-            steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip git'
-//                 sh 'apt-get install -y mysql-server'
-                sh 'python3 --version'
-     //           echo "host url is ${params.DB_URL}"
-//                 sh 'pip3 install mysql-connector-python'
-                sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4 php7.4-mysql'
-                sh 'apt-get install -y mysql-client '
-                script {
-                    env.BASE_PATH = "server/"
-                    env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_ce_tables.sql'
-                }
-            }
-        }
-        stage('clone kaltura server') {
-            when { expression { return !fileExists (env.BASE_PATH) } }
-            steps {
-                 sh 'git clone https://github.com/kaltura/server.git'
-            }
-        }
-//         stage('clone kaltura server-saas-clients') {
-// //             when { expression { return !fileExists (env.BASE_PATH) } }
-//             steps {
-//                  sh 'git clone https://github.com/kaltura/server-saas-clients.git'
-//             }
-//         }
-        stage('connect to DB') {
-            steps {
-                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
-                echo "connect successfully :  mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
-            }
-        }
-        stage('create tables') {
-            when { expression { return fileExists (env.CREATE_TABLE_SCRIPT) & env.create tables } }
-            steps {
-                echo "${env.CREATE_TABLE_SCRIPT}"
-                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
-                sleep 20
-            }
-        }
-        stage('collect permissions file') {
-            when { expression { return fileExists (env.CREATE_TABLE_SCRIPT) & env.create tables } }
-            steps {
-                script {
-                        sh 'touch server/configurations/db.ini'
-                        writeFile(file: 'server/configurations/db.ini', text: data)
-                        sh 'touch server/configurations/local.ini'
-                        sh 'mkdir -p server/cache/scripts'
-                        writeFile(file: 'server/configurations/local.ini', text: local_data)
-                        dir('server')
-                        {
-                            files = findFiles(glob: 'deployment/permissions/*.ini')
-                            echo "file size is" + files.size()
-                            sh 'pwd'
-                            for (int i = 0; i < files.size(); i++) {
-                                def filename = files[i]
-                                sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename"
-                              }
-                            plugin_files = findFiles(glob: 'deployment/plugins/**/permissions.ini')
-                            echo "plugin_files size is" + plugin_files.size()
-                        }
-                }
-
-            }
-        }
-    }
-}
-
-
         }
     stages {
         stage('build') {
@@ -185,7 +78,7 @@ pipeline {
             }
         }
         stage('collect permissions file') {
-            when { expression { env.set_permissions } }
+            when { expression { return env.set_permissions } }
             steps {
                 script {
                         sh 'touch server/configurations/db.ini'
