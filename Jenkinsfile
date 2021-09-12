@@ -45,7 +45,7 @@ pipeline {
                 sh 'apt-get install -y mysql-client '
                 script {
                     env.BASE_PATH = "server/"
-                    env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_sphinx_ce_tables.sql'
+                    env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_ce_tables.sql'
                     env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
                 }
             }
