@@ -73,7 +73,7 @@ pipeline {
          when {
           allOf {
             expression { return fileExists (env.CREATE_TABLE_SCRIPT)}
-            expression { return create_tables }
+            expression { return params.create_tables }
             }
           }
             steps {
@@ -82,7 +82,7 @@ pipeline {
             }
         }
         stage('collect permissions file') {
-            when { expression { return set_permissions } }
+            when { expression { return params.set_permissions } }
             steps {
                 script {
                         sh 'touch server/configurations/db.ini'
