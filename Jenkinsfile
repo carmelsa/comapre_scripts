@@ -70,11 +70,13 @@ pipeline {
             }
         }
         stage('create tables') {
-            when { expression { return fileExists (env.CREATE_TABLE_SCRIPT) } }
+          allOf {
+            expression { return fileExists (env.CREATE_TABLE_SCRIPT)}
+            expression { return create_tables }
+            }
             steps {
                 echo "${env.CREATE_TABLE_SCRIPT}"
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
-                sleep 20
             }
         }
         stage('collect permissions file') {
