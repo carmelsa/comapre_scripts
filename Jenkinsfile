@@ -46,7 +46,6 @@ pipeline {
                 script {
                     env.BASE_PATH = "server/"
                     env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_ce_tables.sql'
-                    env.PERMISSION_SCRIPT = "${env.BASE_PATH}"+'deployment/permissions/'
                 }
             }
         }
@@ -87,14 +86,17 @@ pipeline {
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/permissions/*.ini')
-                            echo "file path is ${env.PERMISSION_SCRIPT} file size is" + files.size()
+                            echo "file size is" + files.size()
                             sh 'pwd'
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename"
                               }
+                            plugin_files = findFiles(glob: 'deployment/plugins/**/permissions.ini')
+                            echo "plugin_files size is" + plugin_files.size()
                         }
-                      }
+                }
+
             }
         }
     }
