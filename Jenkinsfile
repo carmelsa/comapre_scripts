@@ -92,9 +92,9 @@ pipeline {
                             sh 'pwd'
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
-                                echo "${filename}\n"
+                                echo "add permissions - ${filename}\n"
                                 def test =  "php alpha/scripts/utils/permissions/addPermissionsAndItems.php ${filename}"
-                                sh '${filename}'
+                                sh '${test}'
                               }
 //                             sh 'php alpha/scripts/utils/permissions/addPermissionsAndItems.php deployment/permissions/object.KalturaAdCuePoint.ini'
                         }
