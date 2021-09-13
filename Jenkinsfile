@@ -34,7 +34,7 @@ pipeline {
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
         booleanParam(name: 'create_tables', defaultValue: true, description: 'mark true if you want to run create tables script')
         booleanParam(name: 'set_permissions', defaultValue: true, description: 'mark true if you want to set permissions')
-        booleanParam(name: 'set_init_file', defaultValue: true, description: 'mark true if you want to set permissions')
+        booleanParam(name: 'set_init_file', defaultValue: true, description: 'mark true if you want to set init data')
 
         }
     stages {
@@ -118,6 +118,7 @@ pipeline {
                 script {
                         dir('server')
                         {
+                            sleep 20
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini')
                             echo "file init data size is " + files.size()
                             for (int i = 0; i < files.size(); i++) {
