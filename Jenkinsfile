@@ -34,6 +34,8 @@ pipeline {
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
         booleanParam(name: 'create_tables', defaultValue: true, description: 'mark true if you want to run create tables script')
         booleanParam(name: 'set_permissions', defaultValue: true, description: 'mark true if you want to set permissions')
+        booleanParam(name: 'set_init_file', defaultValue: true, description: 'mark true if you want to set permissions')
+
         }
     stages {
         stage('build') {
@@ -48,6 +50,11 @@ pipeline {
                 script {
                     env.BASE_PATH = "server/"
                     env.CREATE_TABLE_SCRIPT = "${env.BASE_PATH}"+'deployment/base/sql/01.kaltura_ce_tables.sql'
+                    sh 'touch server/configurations/db.ini'
+                    writeFile(file: 'server/configurations/db.ini', text: data)
+                    sh 'touch server/configurations/local.ini'
+                    sh 'mkdir -p server/cache/scripts'
+                    writeFile(file: 'server/configurations/local.ini', text: local_data)
                 }
             }
         }
@@ -81,15 +88,10 @@ pipeline {
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
             }
         }
-        stage('collect permissions file') {
+        stage('permissions file') {
             when { expression { return params.set_permissions } }
             steps {
                 script {
-                        sh 'touch server/configurations/db.ini'
-                        writeFile(file: 'server/configurations/db.ini', text: data)
-                        sh 'touch server/configurations/local.ini'
-                        sh 'mkdir -p server/cache/scripts'
-                        writeFile(file: 'server/configurations/local.ini', text: local_data)
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/permissions/*.ini')
@@ -104,6 +106,23 @@ pipeline {
                             for (int i = 0; i < plugin_files.size(); i++) {
                                 def filename = plugin_files[i]
                                 sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename"
+                              }
+                        }
+                }
+
+            }
+        }
+         stage('init data') {
+            when { expression { return params.set_init_file } }
+            steps {
+                script {
+                        dir('server')
+                        {
+                            files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini')
+                            echo "file init data size is " + files.size()
+                            for (int i = 0; i < files.size(); i++) {
+                                def filename = files[i]
+                                sh "php deployment/base/scripts/insertDefaults.php $filename"
                               }
                         }
                 }
