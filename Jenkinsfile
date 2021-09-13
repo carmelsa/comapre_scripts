@@ -24,6 +24,26 @@ password = ${params.DB_PASSWORD}
 db_name = kaltura
 """
 
+dc_config = """current = 0
+[list]
+0.id = 0
+0.name = DC_0
+0.url = http://carmeldev
+0.secret = @DC0_SECRET@
+0.root = /opt/kaltura/web/
+
+; object types and sub types that shouldn't be synced
+; key value structrue is: name = {object type}[:{object sub type}]
+[sync_exclude_types]
+FILE_SYNC_ENTRY_SUB_TYPE_CONVERSION_LOG = 1:9
+FILE_SYNC_ENTRY_SUB_TYPE_LIVE_PRIMARY = 1:10
+FILE_SYNC_ENTRY_SUB_TYPE_LIVE_SECONDARY = 1:11
+BATCHJOB = 3
+FILE_SYNC_ASSET_SUB_TYPE_CONVERT_LOG = 4:2
+FILE_SYNC_ASSET_SUB_TYPE_LIVE_PRIMARY = 4:5
+FILE_SYNC_ASSET_SUB_TYPE_LIVE_SECONDARY = 4:6
+ENTRY_DISTRIBUTION = contentDistribution.EntryDistribution """
+
 
 
 pipeline {
@@ -59,6 +79,7 @@ pipeline {
                     {
                         sh 'unzip server-saas-clients-Quasar-17.10.0.zip'
                     }
+                    writeFile(file: 'server/configurations/dc_config.ini', text: dc_config)
                 }
             }
         }
