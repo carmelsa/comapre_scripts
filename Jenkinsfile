@@ -10,7 +10,6 @@ propel.connection.user = ${params.DB_USER}
 propel.connection.password = ${params.DB_PASSWORD}
 propel.connection.dsn = \"mysql:host=${params.DB_URL};port=3306;dbname=kaltura;\"
 propel.connection.options.kaltura.noTransaction = true
-encryption_iv = "RAoykFop9b5dJ7ZD"
 """
 
 def local_data = """date_default_timezone = Israel
@@ -24,6 +23,7 @@ user = ${params.DB_USER}
 port = 3306
 password = ${params.DB_PASSWORD}
 db_name = kaltura
+encryption_iv = "RAoykFop9b5dJ7ZD"
 """
 
 dc_config = """current = 0
