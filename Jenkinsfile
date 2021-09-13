@@ -54,8 +54,8 @@ pipeline {
         string(name: 'DB_URL',defaultValue: '10.100.102.59', description: 'DB host url')
         string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
-        booleanParam(name: 'create_tables', defaultValue: true, description: 'mark true if you want to run create tables script')
-        booleanParam(name: 'set_permissions', defaultValue: true, description: 'mark true if you want to set permissions')
+        booleanParam(name: 'create_tables', defaultValue: false, description: 'mark true if you want to run create tables script')
+        booleanParam(name: 'set_permissions', defaultValue: false, description: 'mark true if you want to set permissions')
         booleanParam(name: 'set_init_file', defaultValue: true, description: 'mark true if you want to set init data')
 
         }
