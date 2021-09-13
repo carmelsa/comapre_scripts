@@ -40,7 +40,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip git'
+                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip'
 //                 sh 'apt-get install -y mysql-server'
                 sh 'python3 --version'
      //           echo "host url is ${params.DB_URL}"
@@ -55,6 +55,10 @@ pipeline {
                     sh 'touch server/configurations/local.ini'
                     sh 'mkdir -p server/cache/scripts'
                     writeFile(file: 'server/configurations/local.ini', text: local_data)
+                    if ( fileExists ("server-saas-clients-Quasar-17.10.0") == false)
+                    {
+                        unzip server-saas-clients-Quasar-17.10.0.zip
+                    }
                 }
             }
         }
@@ -89,7 +93,9 @@ pipeline {
             }
         }
         stage('permissions file') {
-            when { expression { return params.set_permissions } }
+            when {
+                expression { return params.set_permissions }
+            }
             steps {
                 script {
                         dir('server')
@@ -113,7 +119,12 @@ pipeline {
             }
         }
          stage('init data') {
-            when { expression { return params.set_init_file } }
+             when {
+               allof {
+               expression { return params.set_init_file }
+                expression { return fileExists ("server-saas-clients-Quasar-17.10.0")}
+                }
+            }
             steps {
                 script {
                         dir('server')
