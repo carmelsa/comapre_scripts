@@ -57,7 +57,7 @@ pipeline {
                     writeFile(file: 'server/configurations/local.ini', text: local_data)
                     if ( fileExists ("server-saas-clients-Quasar-17.10.0") == false)
                     {
-                        unzip server-saas-clients-Quasar-17.10.0.zip
+                        sh 'unzip server-saas-clients-Quasar-17.10.0.zip'
                     }
                 }
             }
