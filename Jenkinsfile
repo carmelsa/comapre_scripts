@@ -120,9 +120,9 @@ pipeline {
         }
          stage('init data') {
              when {
-               allof {
+               allOf {
                expression { return params.set_init_file }
-                expression { return fileExists ("server-saas-clients-Quasar-17.10.0")}
+               expression { return fileExists ("server-saas-clients-Quasar-17.10.0")}
                 }
             }
             steps {
