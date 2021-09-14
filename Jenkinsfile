@@ -156,7 +156,7 @@ pipeline {
                             sleep 20
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini')
                             echo "file init data size is " + files.size()
-                            sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data
+                            sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                             //    sh "php deployment/base/scripts/insertDefaults.php $filename"
