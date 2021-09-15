@@ -23,7 +23,7 @@ user = ${params.DB_USER}
 port = 3306
 password = ${params.DB_PASSWORD}
 db_name = kaltura
-encryption_iv = "RAoykFop9b5dJ7ZD"
+encryption_iv = RAoykFop9b5dJ7ZD
 """
 
 dc_config = """current = 0
@@ -62,13 +62,12 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip'
+                sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4 php7.4-mysql'
+                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip mysql-client'
 //                 sh 'apt-get install -y mysql-server'
                 sh 'python3 --version'
      //           echo "host url is ${params.DB_URL}"
 //                 sh 'pip3 install mysql-connector-python'
-                sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4 php7.4-mysql'
-                sh 'apt-get install -y mysql-client '
                 sh 'useradd kaltura'
                 script {
                     env.BASE_PATH = "server/"
