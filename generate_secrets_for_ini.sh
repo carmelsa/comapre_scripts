@@ -65,7 +65,10 @@ TEMPLATE_PARTNER_SECRET=`gen_partner_secret`
 
 BASE_DIR_WEB="/opt/kaltura/web"
 
-INIT_DATA='/init_data'
+#INIT_DATA='/init_data'
+INIT_DATA=$1
+
+
 # SQL statement files tokens:
 for TMPL in `find .$INIT_DATA/ -name "*template*" -not -name "*DeliveryProfile*"`;do
         echo $TMPL
@@ -77,5 +80,5 @@ done
 for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
         echo $TMPL
         DEST_FILE=`echo $TMPL | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
-        sed -e "s#@LIVE_PACKAGER_HOST@#$1#g" -e "s#@VOD_PACKAGER_HOST@#$2#g" -e "s#@WWW_HOST@#$3#g" $TMPL > $DEST_FILE
+        sed -e "s#@LIVE_PACKAGER_HOST@#$2#g" -e "s#@VOD_PACKAGER_HOST@#$3#g" -e "s#@WWW_HOST@#$4#g" $TMPL > $DEST_FILE
 done
