@@ -150,10 +150,10 @@ pipeline {
             steps {
                 script {
                          sh 'chmod +x generate_secrets_for_ini.sh'
+                         sleep 20
                          sh './generate_secrets_for_ini.sh ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}'
                         dir('server')
                         {
-                            sleep 20
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini')
                             echo "file init data size is " + files.size()
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
