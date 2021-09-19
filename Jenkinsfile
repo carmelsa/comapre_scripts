@@ -151,7 +151,7 @@ pipeline {
                 script {
                          sh 'chmod +x generate_secrets_for_ini.sh'
                          sleep 20
-                         sh './generate_secrets_for_ini.sh server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}'
+                         sh './generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}'
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini')
