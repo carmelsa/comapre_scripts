@@ -57,7 +57,9 @@ pipeline {
         booleanParam(name: 'create_tables', defaultValue: false, description: 'mark true if you want to run create tables script')
         booleanParam(name: 'set_permissions', defaultValue: false, description: 'mark true if you want to set permissions')
         booleanParam(name: 'set_init_file', defaultValue: true, description: 'mark true if you want to set init data')
-
+        string(name: 'LIVE_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
+        string(name: 'VOD_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
+        string(name: 'WWW_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         }
     stages {
         stage('build') {
@@ -91,12 +93,6 @@ pipeline {
                  sh 'git clone https://github.com/kaltura/server.git'
             }
         }
-//         stage('clone kaltura server-saas-clients') {
-// //             when { expression { return !fileExists (env.BASE_PATH) } }
-//             steps {
-//                  sh 'git clone https://github.com/kaltura/server-saas-clients.git'
-//             }
-//         }
         stage('connect to DB') {
             steps {
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
@@ -153,7 +149,9 @@ pipeline {
                         dir('server')
                         {
                             sleep 20
-                            files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini')
+                            sh 'chmod +x generate_secrets_for_ini.sh'
+                            sh './generate_secrets_for_ini.sh ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST} '
+                            files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini)
                             echo "file init data size is " + files.size()
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
                             for (int i = 0; i < files.size(); i++) {
