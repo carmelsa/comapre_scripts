@@ -67,8 +67,8 @@ BASE_DIR_WEB="/opt/kaltura/web"
 
 BASE_DIR_LOG="var/log"
 
-INIT_DATA='/init_data'
-#INIT_DATA=$1
+#INIT_DATA='/init_data'
+INIT_DATA=$1
 
 
 # SQL statement files tokens:
@@ -86,8 +86,8 @@ for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
 done
 
 mkdir -p $BASE_DIR_LOG
-#LOG_TEMPLATE="/server/configurations/local.template.ini"
-LOG_TEMPLATE="configuration/logger.template.ini"
+LOG_TEMPLATE="/server/configurations/local.template.ini"
+#LOG_TEMPLATE="configuration/logger.template.ini"
 DEST_FILE=`echo $LOG_TEMPLATE | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
 echo $DEST_FILE
 sed -e "s#@LOG_DIR@#$BASE_DIR_LOG#g" $LOG_TEMPLATE > $DEST_FILE
