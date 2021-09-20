@@ -87,7 +87,7 @@ done
 
 sleep 20
 mkdir -p $BASE_DIR_LOG
-LOG_TEMPLATE="/server/configurations/logger.template.ini"
+LOG_TEMPLATE="server/configurations/logger.template.ini"
 #LOG_TEMPLATE="configuration/logger.template.ini"
 DEST_FILE=`echo $LOG_TEMPLATE | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
 echo $DEST_FILE
