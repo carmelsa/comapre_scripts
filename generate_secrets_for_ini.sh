@@ -85,6 +85,7 @@ for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
         sed -e "s#@LIVE_PACKAGER_HOST@#$2#g" -e "s#@VOD_PACKAGER_HOST@#$3#g" -e "s#@WWW_HOST@#$4#g" $TMPL > $DEST_FILE
 done
 
+sleep 20
 mkdir -p $BASE_DIR_LOG
 LOG_TEMPLATE="/server/configurations/logger.template.ini"
 #LOG_TEMPLATE="configuration/logger.template.ini"
