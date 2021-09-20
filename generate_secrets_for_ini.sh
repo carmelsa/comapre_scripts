@@ -86,7 +86,7 @@ for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
 done
 
 mkdir -p $BASE_DIR_LOG
-LOG_TEMPLATE="/server/configurations/local.template.ini"
+LOG_TEMPLATE="/server/configurations/logger.template.ini"
 #LOG_TEMPLATE="configuration/logger.template.ini"
 DEST_FILE=`echo $LOG_TEMPLATE | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
 echo $DEST_FILE
