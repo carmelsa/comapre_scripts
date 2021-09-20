@@ -65,6 +65,8 @@ TEMPLATE_PARTNER_SECRET=`gen_partner_secret`
 
 BASE_DIR_WEB="/opt/kaltura/web"
 
+BASE_DIR_LOG="var/log"
+
 INIT_DATA='/init_data'
 #INIT_DATA=$1
 
@@ -82,3 +84,14 @@ for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
         DEST_FILE=`echo $TMPL | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
         sed -e "s#@LIVE_PACKAGER_HOST@#$2#g" -e "s#@VOD_PACKAGER_HOST@#$3#g" -e "s#@WWW_HOST@#$4#g" $TMPL > $DEST_FILE
 done
+
+mkdir -p $BASE_DIR_LOG
+#LOG_TEMPLATE="/server/configurations/local.template.ini"
+LOG_TEMPLATE="configuration/logger.template.ini"
+DEST_FILE=`echo $LOG_TEMPLATE | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
+echo $DEST_FILE
+sed -e "s#@LOG_DIR@#$BASE_DIR_LOG#g" $LOG_TEMPLATE > $DEST_FILE
+
+
+
+
