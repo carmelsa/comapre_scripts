@@ -89,6 +89,8 @@ pipeline {
                     if ( fileExists ("server-saas-config-Quasar-17.11.0") == false)
                     {
                         sh 'unzip server-saas-config-Quasar-17.11.0.zip'
+                        sh 'cp server-saas-config-Quasar-17.11.0/configurations/plugins.ini.admin server/configurations'
+                        sh 'cp  server-saas-config-Quasar-17.11.0/configurations/plugins.ini.base server/configurations'
                     }
                     writeFile(file: 'server/configurations/dc_config.ini', text: dc_config)
                 }
@@ -156,14 +158,16 @@ pipeline {
                          sh 'chmod +x generate_secrets_for_ini.sh'
                          sleep 20
                          sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
-                         sh 'cp '
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini')
                             echo "file init data size is " + files.size()
+                            echo "installPlugins"
+                            sh 'php deployment/base/scripts/installPlugins.php'
+                            echo "insertDefaults"
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
-                            for (int i = 0; i < files.size(); i++) {
-                                def filename = files[i]
+                   //         for (int i = 0; i < files.size(); i++) {
+                     //           def filename = files[i]
                             //    sh "php deployment/base/scripts/insertDefaults.php $filename"
 
                               }
