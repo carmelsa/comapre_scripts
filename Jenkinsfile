@@ -150,6 +150,8 @@ pipeline {
             steps {
                 script {
                          sh 'chmod +x generate_secrets_for_ini.sh'
+                         sh 'chmod 777 -R var/log/'
+
                          sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
                         dir('server')
                         {
