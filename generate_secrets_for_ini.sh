@@ -82,7 +82,7 @@ done
 for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
         echo $TMPL
         DEST_FILE=`echo $TMPL | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
-        sed -e "s#@LIVE_PACKAGER_HOST@#$2#g" -e "s#@VOD_PACKAGER_HOST@#$3#g" -e "s#@WWW_HOST@#$4#g" $TMPL > $DEST_FILE
+        sed -e "s#@LIVE_PACKAGER_HOST@:@LIVE_PACKAGER_PORT@#$2#g" -e "s#@VOD_PACKAGER_HOST@:@VOD_PACKAGER_PORT@#$3#g" -e "s#@WWW_HOST@#$4#g" $TMPL > $DEST_FILE
 done
 
 mkdir -p $BASE_DIR_LOG
