@@ -17,13 +17,13 @@ query_cache_enabled = false
 query_cache_invalidate_on_change = false
 sphinx_query_cache_enabled = false
 sphinx_query_cache_invalidate_on_change = false
+encryption_iv = "RAoykFop9b5dJ7ZD"
 [reports_db_config]
 host = ${params.DB_URL}
 user = ${params.DB_USER}
 port = 3306
 password = ${params.DB_PASSWORD}
 db_name = kaltura
-encryption_iv = "RAoykFop9b5dJ7ZD"
 
 """
 
