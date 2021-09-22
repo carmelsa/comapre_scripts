@@ -170,7 +170,7 @@ pipeline {
                      //           def filename = files[i]
                             //    sh "php deployment/base/scripts/insertDefaults.php $filename"
 
-                              }
+                         //     }
                         }
                 }
 
