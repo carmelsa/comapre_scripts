@@ -24,6 +24,7 @@ port = 3306
 password = ${params.DB_PASSWORD}
 db_name = kaltura
 encryption_iv = RAoykFop9b5dJ7ZD
+
 """
 
 dc_config = """current = 0
@@ -156,7 +157,6 @@ pipeline {
             steps {
                 script {
                          sh 'chmod +x generate_secrets_for_ini.sh'
-                         sleep 20
                          sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
                         dir('server')
                         {
@@ -165,6 +165,7 @@ pipeline {
                             echo "installPlugins"
                             sh 'php deployment/base/scripts/installPlugins.php'
                             echo "insertDefaults"
+                            sleep 20
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
                    //         for (int i = 0; i < files.size(); i++) {
                      //           def filename = files[i]
