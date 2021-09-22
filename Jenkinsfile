@@ -86,6 +86,10 @@ pipeline {
                     {
                         sh 'unzip server-saas-clients-Quasar-17.10.0.zip'
                     }
+                    if ( fileExists ("server-saas-config-Quasar-17.11.0") == false)
+                    {
+                        sh 'unzip server-saas-config-Quasar-17.11.0.zip'
+                    }
                     writeFile(file: 'server/configurations/dc_config.ini', text: dc_config)
                 }
             }
@@ -144,7 +148,7 @@ pipeline {
              when {
                allOf {
                expression { return params.set_init_file }
-               expression { return fileExists ("server-saas-clients-Quasar-17.10.0")}
+               expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
                 }
             }
             steps {
@@ -152,6 +156,7 @@ pipeline {
                          sh 'chmod +x generate_secrets_for_ini.sh'
                          sleep 20
                          sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
+                         sh 'cp '
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini')
