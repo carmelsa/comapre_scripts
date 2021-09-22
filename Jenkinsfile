@@ -23,7 +23,7 @@ user = ${params.DB_USER}
 port = 3306
 password = ${params.DB_PASSWORD}
 db_name = kaltura
-encryption_iv = RAoykFop9b5dJ7ZD
+encryption_iv = "RAoykFop9b5dJ7ZD"
 
 """
 
