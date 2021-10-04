@@ -148,7 +148,6 @@ pipeline {
                 script {
                         dir('server')
                         {
-                            sh "cmod +x /opt/kaltura/log/kaltura_scripts.log"
                             files = findFiles(glob: 'deployment/permissions/*.ini')
                             echo "file size is " + files.size()
                             sh 'pwd'
