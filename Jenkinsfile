@@ -65,7 +65,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip vim'
+                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip vim locate'
                 sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4 php7.4-mysql'
                 sh 'apt-get update && apt-get install -y python3 python3-pip git unzip mysql-client'
 //                 sh 'apt-get install -y mysql-server'
