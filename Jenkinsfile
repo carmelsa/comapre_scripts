@@ -184,8 +184,9 @@ pipeline {
                             echo "insertDefaults"
                             init_files = findFiles(glob: 'deployment/base/scripts/init_data/*', excludes: 'deployment/base/scripts/init_data/*DeliveryProfile')
                             sh 'mkdir -p deployment/base/scripts/init_data_Ready'
+                            echo  init_files.size()
                             for (int i = 0; i < init_files.size(); i++) {
-                                def filename = files[i]
+                                def filename = init_files[i]
                                 echo $filename
                                 sh 'cp $filename deployment/base/scripts/init_data_Ready'
                               }
