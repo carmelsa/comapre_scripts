@@ -188,7 +188,7 @@ pipeline {
                             for (int i = 0; i < init_files.size(); i++) {
                                 def filename = init_files[i]
                                 echo "$filename"
-                                sh "cp -p $filename deployment/base/scripts/init_data_Ready"
+                                sh "cp -pn $filename deployment/base/scripts/init_data_Ready"
                             }
                             sleep 20
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data_Ready'
