@@ -105,7 +105,10 @@ pipeline {
         }
         stage('connect to DB') {
             steps {
-                sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
+                timeout(time: 1, unit: 'MINUTES')
+                {
+                   sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
+                }
                 echo "connect successfully :  mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
             }
         }
