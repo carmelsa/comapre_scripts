@@ -124,6 +124,22 @@ pipeline {
                 sh "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} < ${env.CREATE_TABLE_SCRIPT}"
             }
         }
+        stage('prepare template') {
+             when {
+               allOf {
+               expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
+               anyOf {
+                       expression { return params.set_init_file }
+                       expression { return params.set_permissions }
+                    }
+                }
+            }
+            step {
+            sh 'chmod +x generate_secrets_for_ini.sh'
+            sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
+               }
+         }
+
         stage('permissions file') {
             when {
                 expression { return params.set_permissions }
@@ -132,6 +148,7 @@ pipeline {
                 script {
                         dir('server')
                         {
+                            sh "cmod +x /opt/kaltura/log/kaltura_scripts.log"
                             files = findFiles(glob: 'deployment/permissions/*.ini')
                             echo "file size is " + files.size()
                             sh 'pwd'
@@ -159,8 +176,6 @@ pipeline {
             }
             steps {
                 script {
-                         sh 'chmod +x generate_secrets_for_ini.sh'
-                         sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini')
@@ -170,11 +185,6 @@ pipeline {
                             echo "insertDefaults"
                             sleep 20
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
-                   //         for (int i = 0; i < files.size(); i++) {
-                     //           def filename = files[i]
-                            //    sh "php deployment/base/scripts/insertDefaults.php $filename"
-
-                         //     }
                         }
                 }
 
