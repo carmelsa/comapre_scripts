@@ -185,10 +185,11 @@ pipeline {
                             init_files = findFiles(glob: 'deployment/base/scripts/init_data/*', excludes: 'deployment/base/scripts/init_data/*DeliveryProfile')
                             sh 'mkdir -p deployment/base/scripts/init_data_Ready'
                             for (int i = 0; i < init_files.size(); i++) {
-                               sh 'cp $init_files[i] deployment/base/scripts/init_data_Ready'
+                                def filename = files[i]
+                               sh 'cp $filename deployment/base/scripts/init_data_Ready'
                               }
                             sleep 20
-                            sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data'
+                            sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data_Ready'
                         }
                 }
 
