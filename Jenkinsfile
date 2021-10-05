@@ -193,7 +193,6 @@ pipeline {
                                 def filename = init_files[i]
                                 sh "cp -pn $filename deployment/base/scripts/init_data_Ready"
                             }
-                            sleep 20
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data_Ready'
                         }
                 }
@@ -206,7 +205,7 @@ pipeline {
                expression { return params.ADD_USER }
                expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
                expression { return fileExists ("server/tests/standAloneClient/exec.php")}
-               expression { return fileExists ("deployment/base/scripts/init_content/01.UserRole.-2.xml")}
+               expression { return fileExists ("server/deployment/base/scripts/init_content/01.UserRole.-2.xml")}
                 }
             }
             steps {
