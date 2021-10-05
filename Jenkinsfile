@@ -136,7 +136,7 @@ pipeline {
             }
             steps {
             sh 'chmod +x generate_secrets_for_ini.sh'
-            sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
+            sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data /server/deployment/base/scripts/init_content ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
                }
          }
 
