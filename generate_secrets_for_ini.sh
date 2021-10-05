@@ -70,6 +70,8 @@ BASE_DIR_LOG="/opt/kaltura/log"
 #INIT_DATA='/init_data'
 INIT_DATA=$1
 
+UI_CONF_DIR=$INIT_DATA'/ui_conf'
+
 
 # SQL statement files tokens:
 for TMPL in `find .$INIT_DATA/ -name "*template*" -not -name "*DeliveryProfile*"`;do
@@ -93,6 +95,13 @@ DEST_FILE=`echo $LOG_TEMPLATE | sed 's@\(.*\)\.template\(.*\)@\1\2@'`
 echo $DEST_FILE
 sed -e "s#@LOG_DIR@#$BASE_DIR_LOG#g" $LOG_TEMPLATE > $DEST_FILE
 
+UI_CONF_INI=.$INIT_DATA"/03.uiConf.ini"
+UI_CONF_INI_TEMPLATE=.$INIT_DATA"/03.uiConf.template.ini"
+if [[ ! -f $UI_CONF_INI_TEMPLATE ]]
+then
+  cp -R $UI_CONF_INI $UI_CONF_INI_TEMPLATE
+fi
+sed -e "s#@ui_conf#$UI_CONF_DIR#g" $UI_CONF_INI_TEMPLATE > $UI_CONF_INI
 
 
 
