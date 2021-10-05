@@ -61,7 +61,7 @@ pipeline {
         string(name: 'LIVE_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         string(name: 'VOD_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         string(name: 'WWW_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
-        booleanParam(name: 'ADD_USER', defaultValue: true, description: 'mark true if you want to set the init content')
+        booleanParam(name: 'set_user', defaultValue: true, description: 'mark true if you want to set the init content')
         string(name: 'USER_EMAIL',defaultValue: 'admin@kaltura.com', description: 'add user email')
         string(name: 'USER_ID',defaultValue: '1111', description: 'add user id')
         password(name: 'USER_PASSWORD',defaultValue: 'root', description: 'user password')
@@ -135,6 +135,8 @@ pipeline {
                anyOf {
                        expression { return params.set_init_file }
                        expression { return params.set_permissions }
+                       expression { return params.set_user }
+
                     }
                 }
             }
@@ -202,7 +204,7 @@ pipeline {
         stage('add user') {
              when {
                allOf {
-               expression { return params.ADD_USER }
+               expression { return params.set_user }
                expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
                expression { return fileExists ("server/tests/standAloneClient/exec.php")}
                expression { return fileExists ("server/deployment/base/scripts/init_content/01.UserRole.-2.xml")}
