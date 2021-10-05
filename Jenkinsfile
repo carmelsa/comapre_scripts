@@ -209,17 +209,13 @@ pipeline {
                 }
             }
             steps {
+                    echo "add user admin"
+                    sh 'sed -i -e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  server/deployment/base/scripts/init_content/01.UserRole.-2.xml'
                 script {
                         dir('server')
                         {
                             files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
                             echo "file init data size is " + files.size()
-                            echo "add user admin"
-                            def user=${params.USER_ID}
-                            def pass=${params.USER_PASSWORD}
-                            def email=${params.USER_EMAIL}
-                            echo "aa"
-                            sh 'sed -i -e "s#<id></id>#<id>$user</id>#gI" -e "s#<email></email>#<email>$email</email>#gI"  -e "s#<password></password>#<password>$pass</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml'
                             sleep 20
                             sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                         }
