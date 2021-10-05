@@ -57,7 +57,7 @@ pipeline {
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
         booleanParam(name: 'create_tables', defaultValue: false, description: 'mark true if you want to run create tables script')
         booleanParam(name: 'set_permissions', defaultValue: false, description: 'mark true if you want to set permissions')
-        booleanParam(name: 'set_init_file', defaultValue: true, description: 'mark true if you want to set init data')
+        booleanParam(name: 'set_init_file', defaultValue: false, description: 'mark true if you want to set init data')
         string(name: 'LIVE_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         string(name: 'VOD_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         string(name: 'WWW_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
@@ -215,7 +215,11 @@ pipeline {
                             files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
                             echo "file init data size is " + files.size()
                             echo "add user admin"
-                            sh 'sed -i -e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                            def user=${params.USER_ID}
+                            def pass=${params.USER_PASSWORD}
+                            def email=${params.USER_EMAIL}
+                            echo "aa"
+                            sh 'sed -i -e "s#<id></id>#<id>$user</id>#gI" -e "s#<email></email>#<email>$email</email>#gI"  -e "s#<password></password>#<password>$pass</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml'
                             sleep 20
                             sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                         }
