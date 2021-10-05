@@ -65,11 +65,6 @@ pipeline {
         string(name: 'USER_EMAIL',defaultValue: 'admin@kaltura.com', description: 'add user email')
         string(name: 'USER_ID',defaultValue: '1111', description: 'add user id')
         password(name: 'USER_PASSWORD',defaultValue: 'root', description: 'user password')
-        <id></id>
-				<screenName></screenName>
-				<email></email>
-				<password></password>
-        }
     stages {
         stage('build') {
             steps {
