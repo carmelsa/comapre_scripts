@@ -87,9 +87,7 @@ for TMPL in `find .$INIT_DATA/ -name "*DeliveryProfile*"`;do
 done
 
 for TMPL in `find .$INIT_DATA/ -not -name "*template*" -not -name "*DeliveryProfile*"`;do
-        echo $TMPL
-        echo $INImetadata_profile_schemasT_DATA
-        gsed -i "s#@#$INIT_DATA/#g" $TMPL
+        sed -i "s#@#$INIT_DATA/#g" $TMPL
 done
 
 mkdir -p $BASE_DIR_LOG
