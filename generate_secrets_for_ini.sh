@@ -101,6 +101,7 @@ if [[ ! -f $UI_CONF_INI_TEMPLATE ]]
 then
   cp -R $UI_CONF_INI $UI_CONF_INI_TEMPLATE
 fi
+echo "convert ui_conf"
 sed -e "s#@ui_conf#$UI_CONF_DIR#g" $UI_CONF_INI_TEMPLATE > $UI_CONF_INI
 
 
