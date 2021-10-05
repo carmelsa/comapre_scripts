@@ -67,6 +67,8 @@ BASE_DIR_WEB="/opt/kaltura/web"
 
 BASE_DIR_LOG="/opt/kaltura/log"
 
+SERVICE_URL=$4
+
 #INIT_DATA='/init_data'
 INIT_DATA=$1
 
