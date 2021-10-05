@@ -213,14 +213,12 @@ pipeline {
                         dir('server')
                         {
                             echo "add user admin"
-                            def aa = """-e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml"""
-                        //    sh 'sed -i -e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  server/deployment/base/scripts/init_content/01.UserRole.-2.xml'
-                            echo "test $aa"
-                            sh "sed -i $aa"
+                            def sed_string = """-e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml"""
+                            sh "sed -i $sed_string"
                         //    files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
                        //     echo "file init data size is " + files.size()
-                       //     sleep 20
-                       //     sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                            sleep 20
+                            sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                         }
                 }
 
