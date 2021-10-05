@@ -61,6 +61,14 @@ pipeline {
         string(name: 'LIVE_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         string(name: 'VOD_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         string(name: 'WWW_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
+        booleanParam(name: 'ADD_USER', defaultValue: true, description: 'mark true if you want to set the init content')
+        string(name: 'USER_EMAIL',defaultValue: 'admin@kaltura.com', description: 'add user email')
+        string(name: 'USER_ID',defaultValue: '1111', description: 'add user id'
+        password(name: 'USER_PASSWORD',defaultValue: 'root', description: 'user password')
+        <id></id>
+				<screenName></screenName>
+				<email></email>
+				<password></password>
         }
     stages {
         stage('build') {
@@ -191,6 +199,30 @@ pipeline {
                             }
                             sleep 20
                             sh 'php deployment/base/scripts/insertDefaults.php deployment/base/scripts/init_data_Ready'
+                        }
+                }
+
+            }
+        }
+        stage('add user') {
+             when {
+               allOf {
+               expression { return params.ADD_USER }
+               expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
+               expression { return fileExists ("server/tests/standAloneClient/exec.php")}
+               expression { return fileExists ("deployment/base/scripts/init_content/01.UserRole.-2.xml")}
+                }
+            }
+            steps {
+                script {
+                        dir('server')
+                        {
+                            files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
+                            echo "file init data size is " + files.size()
+                            echo "add user admin"
+                            sh 'sed -i -e "s#<id></id>#<id>$params.USER_ID</id>#g" -e "s#<email></email>#<email>$params.USER_EMAIL</email>#g"  -e "s#<password></password>#<password>$params.USER_PASSWORD</password>#g"  deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                            sleep 20
+                            sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                         }
                 }
 
