@@ -214,8 +214,7 @@ pipeline {
             steps {
                 script {
                         sh 'chmod +x generate_secrets_for_content.sh'
-                        def DB_CONN = "mysql -N -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD} kaltura"
-                        sh "./generate_secrets_for_content.sh /server/deployment/base/scripts/init_content  ${params.WWW_HOST} $DB_CONN ${params.USER_EMAIL} ${params.USER_PASSWORD}"
+                        sh "./generate_secrets_for_content.sh /server/deployment/base/scripts/init_content  ${params.WWW_HOST} ${params.USER_EMAIL} ${params.USER_PASSWORD} ${params.DB_URL} ${params.DB_USER} ${params.DB_PASSWORD}"
 
                         dir('server')
                         {

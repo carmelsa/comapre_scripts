@@ -3,9 +3,9 @@
 #INIT_CONTENT='/init_content'
 INIT_CONTENT=$1
 SERVICE_URL=$2
-DB_CONN=$3
-ADMIN_CONSOLE_ADMIN_MAIL=$4
-ADMIN_CONSOLE_PASSWORD=$5
+DB_CONN=mysql -N -h$5 -u$6 -p$7 kaltura
+ADMIN_CONSOLE_ADMIN_MAIL=$3
+ADMIN_CONSOLE_PASSWORD=$4
 WEB_DIR="/opt/kaltura/web"
 echo "connecting to : $DB_CONN"
 TEMPLATE_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=99"|$DB_CONN`
