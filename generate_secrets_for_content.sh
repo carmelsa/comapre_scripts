@@ -8,9 +8,9 @@ ADMIN_CONSOLE_ADMIN_MAIL=$4
 ADMIN_CONSOLE_PASSWORD=$5
 WEB_DIR="/opt/kaltura/web"
 
-TEMPLATE_PARTNER_ADMIN_SECRET = `echo "select admin_secret from partner where id=99"|mysql -N -h$DB1_HOST -u$DB1_USER -p$DB1_PASS $DB1_NAME -P$DB1_PORT`
-ADMIN_CONSOLE_PARTNER_ADMIN_SECRET = `echo "select admin_secret from partner where id=-2"|mysql -N -h$DB1_HOST -u$DB1_USER -p$DB1_PASS $DB1_NAME -P$DB1_PORT`
-MONITOR_PARTNER_ADMIN_SECRET  =`echo "select admin_secret from partner where id=-4"|mysql -N -h$DB1_HOST -u$DB1_USER -p$DB1_PASS $DB1_NAME -P$DB1_PORT`
+TEMPLATE_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=99"|$DB_CONN`
+ADMIN_CONSOLE_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=-2"|$DB_CONN`
+MONITOR_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=-4"|$DB_CONN`
 
 UI_CONF_DIR=$INIT_DATA'/ui_conf'
 
