@@ -2,7 +2,7 @@
 
 #INIT_CONTENT='/init_content'
 INIT_CONTENT=$1
-SERVICE_URL=$2
+SERVICE_URL="http://$2"
 DB_CONN="mysql -N -h$5 -u$6 -p$7 kaltura"
 ADMIN_CONSOLE_ADMIN_MAIL=$3
 ADMIN_CONSOLE_PASSWORD=$4
