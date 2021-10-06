@@ -63,7 +63,6 @@ pipeline {
         string(name: 'WWW_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         booleanParam(name: 'set_user', defaultValue: true, description: 'mark true if you want to set the init content')
         string(name: 'USER_EMAIL',defaultValue: 'admin@kaltura.com', description: 'add user email')
-        string(name: 'USER_ID',defaultValue: '1111', description: 'add user id')
         password(name: 'USER_PASSWORD',defaultValue: 'root', description: 'user password')
         }
     stages {
@@ -139,17 +138,12 @@ pipeline {
              when {
                allOf {
                expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
-               anyOf {
-                       expression { return params.set_init_file }
-                       expression { return params.set_permissions }
-                       expression { return params.set_user }
-
-                    }
+               expression { return params.set_init_file }
                 }
             }
             steps {
             sh 'chmod +x generate_secrets_for_ini.sh'
-            sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data /server/deployment/base/scripts/init_content ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
+            sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
                }
          }
 
@@ -214,21 +208,24 @@ pipeline {
                expression { return params.set_user }
                expression { return fileExists ("server-saas-config-Quasar-17.11.0")}
                expression { return fileExists ("server/tests/standAloneClient/exec.php")}
-               expression { return fileExists ("server/deployment/base/scripts/init_content/01.UserRole.-2.xml")}
+               expression { return fileExists ("server/deployment/base/scripts/init_content/01.UserRole.-2.template.xml")}
                 }
             }
             steps {
                 script {
+                        sh 'chmod +x generate_secrets_for_content.sh'
+                        def DB_CONN = "mysql -h${params.DB_URL} -u${params.DB_USER} -p${params.DB_PASSWORD}"
+                        sh "./generate_secrets_for_content.sh /server/deployment/base/scripts/init_content  ${params.WWW_HOST} $DB_CONN ${params.USER_EMAIL} ${params.USER_PASSWORD}"
 
                         dir('server')
                         {
                             echo "add user admin"
-                            def sed_string = """-e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml"""
-                            sh "sed -i $sed_string"
+                        //    def sed_string = """-e "s#<id></id>#<id>${params.USER_ID}</id>#gI" -e "s#<email></email>#<email>${params.USER_EMAIL}</email>#gI"  -e "s#<password></password>#<password>${params.USER_PASSWORD}</password>#gI"  deployment/base/scripts/init_content/01.UserRole.-2.xml"""
+                       //     sh "sed -i $sed_string"
                         //    files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
                        //     echo "file init data size is " + files.size()
                             sleep 20
-                            sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                       //     sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                         }
                 }
 
