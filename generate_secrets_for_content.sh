@@ -7,7 +7,7 @@ DB_CONN=$3
 ADMIN_CONSOLE_ADMIN_MAIL=$4
 ADMIN_CONSOLE_PASSWORD=$5
 WEB_DIR="/opt/kaltura/web"
-
+echo "connecting to : $DB_CONN"
 TEMPLATE_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=99"|$DB_CONN`
 ADMIN_CONSOLE_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=-2"|$DB_CONN`
 MONITOR_PARTNER_ADMIN_SECRET=`echo "select admin_secret from partner where id=-4"|$DB_CONN`
