@@ -3,7 +3,7 @@
 #INIT_CONTENT='/init_content'
 INIT_CONTENT=$1
 SERVICE_URL=$2
-DB_CONN=mysql -N -h$5 -u$6 -p$7 kaltura
+DB_CONN="mysql -N -h$5 -u$6 -p$7 kaltura"
 ADMIN_CONSOLE_ADMIN_MAIL=$3
 ADMIN_CONSOLE_PASSWORD=$4
 WEB_DIR="/opt/kaltura/web"
