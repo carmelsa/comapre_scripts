@@ -91,6 +91,13 @@ pipeline {
                     {
                         sh 'unzip server-saas-clients-Quasar-17.10.0.zip'
                     }
+                    else
+                    {
+                        if ( fileExists ("server/tests/lib") == false)
+                        {
+                            sh 'cp -r server-saas-clients-Quasar-17.10.0/tests/lib server/tests/'
+                        }
+                    }
                     if ( fileExists ("server-saas-config-Quasar-17.11.0") == false)
                     {
                         sh 'unzip server-saas-config-Quasar-17.11.0.zip'
@@ -212,6 +219,7 @@ pipeline {
             }
             steps {
                 script {
+
                         dir('server')
                         {
                             echo "add user admin"
