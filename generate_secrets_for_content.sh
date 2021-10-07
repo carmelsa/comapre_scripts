@@ -22,6 +22,21 @@ for TMPL in `find .$INIT_CONTENT/ -name "*template*" `;do
         sed -e "s#@WEB_DIR@#$BASE_DIR/web#g" -e "s#@TEMPLATE_PARTNER_ADMIN_SECRET@#$TEMPLATE_PARTNER_ADMIN_SECRET#g" -e "s#@ADMIN_CONSOLE_PARTNER_ADMIN_SECRET@#$ADMIN_CONSOLE_PARTNER_ADMIN_SECRET#g" -e "s#@MONITOR_PARTNER_ADMIN_SECRET@#$MONITOR_PARTNER_ADMIN_SECRET#g" -e "s#@SERVICE_URL@#$SERVICE_URL#g" -e "s#@ADMIN_CONSOLE_ADMIN_MAIL@#$ADMIN_CONSOLE_ADMIN_MAIL#g"   -e "s/@ADMIN_CONSOLE_PASSWORD@/$ADMIN_CONSOLE_PASSWORD/g"  -i $DEST_FILE
 done
 
+#add user -2
+USER_SET = `echo "select id from kuser where partner_id='-2'"|$DB_CONN`
+if (USER_SET == '')
+  echo 'create user -2'
+  php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml
+fi
+
+#add user 99
+USER_SET = `echo "select id from kuser where partner_id='99'"|$DB_CONN`
+if (USER_SET == '')
+  echo 'create user 99'
+  php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml
+fi
+
+
 
 
 

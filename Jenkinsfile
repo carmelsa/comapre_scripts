@@ -216,14 +216,14 @@ pipeline {
                         echo "add user admin"
                         sh 'chmod +x generate_secrets_for_content.sh'
                         sh "./generate_secrets_for_content.sh /server/deployment/base/scripts/init_content  ${params.WWW_HOST} ${params.USER_EMAIL} ${params.USER_PASSWORD} ${params.DB_URL} ${params.DB_USER} ${params.DB_PASSWORD}"
-                        dir('server')
-                        {
+                        //dir('server')
+             //           {
                         //    files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
                        //     echo "file init data size is " + files.size()
-                            sleep 20
-                            sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
-                            sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml'
-                        }
+                       //     sleep 20
+                         //   sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                          //  sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml'
+                      //  }
                 }
 
             }
