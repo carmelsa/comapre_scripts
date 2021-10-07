@@ -25,19 +25,19 @@ done
 #add user -2
 USER_SET=`echo "select id from kuser where partner_id='-2'"|$DB_CONN`
 echo "user -2 $USER_SET"
-if [["$USER_SET" == ""]]
+if ["$USER_SET" == ""]
 then
   echo 'create user -2'
-  php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml
+  php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.UserRole.-2.xml
 fi
 
 #add user 99
 USER_SET=`echo "select id from kuser where partner_id='99'"|$DB_CONN`
 echo "user 99 $USER_SET"
-if [["$USER_SET" == ""]]
+if ["$USER_SET" == ""]
 then
   echo 'create user 99'
-  php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml
+  php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.UserRole.99.xml
 fi
 
 
