@@ -222,6 +222,7 @@ pipeline {
                        //     echo "file init data size is " + files.size()
                             sleep 20
                             sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                            sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml'
                         }
                 }
 
