@@ -104,6 +104,7 @@ pipeline {
                         sh 'cp  server-saas-config-Quasar-17.11.0/configurations/plugins.ini.base server/configurations'
                     }
                     writeFile(file: 'server/configurations/dc_config.ini', text: dc_config)
+                    sh 'find server/cache/ -type f -delete'
                 }
             }
         }
