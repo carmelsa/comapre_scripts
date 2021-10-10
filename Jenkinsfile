@@ -188,7 +188,6 @@ pipeline {
                             files = findFiles(glob: 'deployment/base/scripts/init_data/*.ini',excludes: 'deployment/base/scripts/init_data/*template.ini')
                             echo "file init data size is " + files.size()
                             echo "installPlugins"
-                            sleep 20
                             sh 'php deployment/base/scripts/installPlugins.php'
                             echo "insertDefaults"
                             init_files = findFiles(glob: 'deployment/base/scripts/init_data/*', excludes: 'deployment/base/scripts/init_data/*DeliveryProfile*,deployment/base/scripts/init_data/*template.ini')
