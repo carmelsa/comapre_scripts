@@ -189,7 +189,7 @@ pipeline {
                             echo "installPlugins"
                             sh 'php deployment/base/scripts/installPlugins.php'
                             echo "insertDefaults"
-                            init_files = findFiles(glob: 'deployment/base/scripts/init_data/*', excludes: 'deployment/base/scripts/init_data/*DeliveryProfile*')
+                            init_files = findFiles(glob: 'deployment/base/scripts/init_data/*', excludes: 'deployment/base/scripts/init_data/*DeliveryProfile*' ,'deployment/base/scripts/init_data/*template.ini')
                             sh 'rm -r deployment/base/scripts/init_data_Ready; mkdir deployment/base/scripts/init_data_Ready'
                             echo "file size is " + init_files.size()
                             for (int i = 0; i < init_files.size(); i++) {
