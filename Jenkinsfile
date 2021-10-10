@@ -52,7 +52,7 @@ ENTRY_DISTRIBUTION = contentDistribution.EntryDistribution """
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
     parameters {
-        string(name: 'DB_URL',defaultValue: '10.0.20.32', description: 'DB host url')
+        string(name: 'DB_URL',defaultValue: '10.0.20.25', description: 'DB host url')
         string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
         booleanParam(name: 'create_tables', defaultValue: false, description: 'mark true if you want to run create tables script')
