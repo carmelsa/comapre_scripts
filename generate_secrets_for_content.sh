@@ -40,7 +40,10 @@ then
   php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.UserRole.99.xml
 fi
 
-
+for file in `find .$INIT_CONTENT/ -name "*template*" -name "*UserRole*" `;do
+        echo $file
+        php server/tests/standAloneClient/exec.php $file
+done
 
 
 
