@@ -40,10 +40,13 @@ then
   php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.UserRole.99.xml
 fi
 
-for file in `find .$INIT_CONTENT/ -not -name "*template*" -not -name "*UserRole*" `;do
-        echo "start working on $file"
-        php server/tests/standAloneClient/exec.php $file
-done
+
+echo "start working on accessControl "
+php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.accessControl.xml
+#for file in `find .$INIT_CONTENT/ -not -name "*template*" -not -name "*UserRole*" `;do
+#        echo "start working on $file"
+#        php server/tests/standAloneClient/exec.php $file
+#done
 
 
 
