@@ -41,7 +41,7 @@ then
 fi
 
 for file in `find .$INIT_CONTENT/ -not -name "*template*" -not -name "*UserRole*" `;do
-        echo $file
+        echo "start working on $file"
         php server/tests/standAloneClient/exec.php $file
 done
 
