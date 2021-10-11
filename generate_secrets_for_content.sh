@@ -23,18 +23,19 @@ for TMPL in `find .$INIT_CONTENT/ -name "*template*" `;do
 done
 
 #add user -2
-USER_SET=`echo "select id from kuser where partner_id='-2'"|$DB_CONN`
-echo "user -2 $USER_SET"
-if ["$USER_SET" == ""]
+USER_SET_1=`echo "select id from kuser where partner_id='-2'"|$DB_CONN`
+echo "user -2 $USER_SET_1"
+
+if ["$USER_SET_1" == ""]
 then
   echo 'create user -2'
   php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.UserRole.-2.xml
 fi
 
 #add user 99
-USER_SET=`echo "select id from kuser where partner_id='99'"|$DB_CONN`
-echo "user 99 $USER_SET"
-if ["$USER_SET" == ""]
+USER_SET_2=`echo "select id from kuser where partner_id='99'"|$DB_CONN`
+echo "user 99 $USER_SET_2"
+if ["$USER_SET_2" == ""]
 then
   echo 'create user 99'
   php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.UserRole.99.xml
