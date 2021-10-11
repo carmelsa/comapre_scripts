@@ -52,15 +52,15 @@ ENTRY_DISTRIBUTION = contentDistribution.EntryDistribution """
 pipeline {
     agent { docker { image 'ubuntu:20.04' } }
     parameters {
-        string(name: 'DB_URL',defaultValue: '192.168.183.71', description: 'DB host url')
+        string(name: 'DB_URL',defaultValue: '10.100.102.59', description: 'DB host url')
         string(name: 'DB_USER',defaultValue: 'root', description: 'DB user')
         password(name: 'DB_PASSWORD',defaultValue: 'root', description: 'DB password')
         booleanParam(name: 'create_tables', defaultValue: false, description: 'mark true if you want to run create tables script')
         booleanParam(name: 'set_permissions', defaultValue: false, description: 'mark true if you want to set permissions')
         booleanParam(name: 'set_init_file', defaultValue: false, description: 'mark true if you want to set init data')
-        string(name: 'LIVE_PACKAGER_HOST',defaultValue: '192.168.183.72', description: 'if the port is different from 80, please add :port to the host')
-        string(name: 'VOD_PACKAGER_HOST',defaultValue: '192.168.183.72', description: 'if the port is different from 80, please add :port to the host')
-        string(name: 'WWW_HOST',defaultValue: '192.168.183.72', description: 'if the port is different from 80, please add :port to the host')
+        string(name: 'LIVE_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
+        string(name: 'VOD_PACKAGER_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
+        string(name: 'WWW_HOST',defaultValue: '10.100.102.53', description: 'if the port is different from 80, please add :port to the host')
         booleanParam(name: 'set_user', defaultValue: true, description: 'mark true if you want to set the init content')
         string(name: 'USER_EMAIL',defaultValue: 'admin@kaltura.com', description: 'add user email')
         password(name: 'USER_PASSWORD',defaultValue: 'root', description: 'user password')
