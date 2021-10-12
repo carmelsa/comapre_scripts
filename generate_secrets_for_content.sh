@@ -61,6 +61,10 @@ php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_c
 
 echo "start working on 02.playlist.99.xml "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.playlist.99.xml
+
+echo "start working on 04.dropFolder.-4.xml"
+php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/04.dropFolder.-4.xml
+
 #for file in `find .$INIT_CONTENT/ -not -name "*template*" -not -name "*UserRole*" `;do
 #        echo "start working on $file"
 #        php server/tests/standAloneClient/exec.php $file
