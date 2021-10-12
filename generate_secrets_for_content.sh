@@ -48,13 +48,6 @@ php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_c
 echo "start working on conversionProfile "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.conversionProfile.99.xml
 
-echo "start working on entry.99 "
-php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml
-
-#
-#echo "start working on entry. -4 "
-#php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.-4.xml
-
 
 echo "start working on 03.EventNotificationTemplate.0.xml "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/03.EventNotificationTemplate.0.xml
@@ -62,11 +55,21 @@ php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_c
 echo "start working on 02.playlist.99.xml "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.playlist.99.xml
 
-#echo "start working on 04.dropFolder.-4.xml"
-#php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/04.dropFolder.-4.xml
 
 echo "start working on 05.responseProfiles.0.xml"
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/05.responseProfiles.0.xml
+
+echo "start working on entry.99 "
+php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml
+
+#
+#echo "start working on entry. -4 "
+#php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.-4.xml
+
+#echo "start working on 04.dropFolder.-4.xml"
+#php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/04.dropFolder.-4.xml
+
+
 
 #for file in `find .$INIT_CONTENT/ -not -name "*template*" -not -name "*UserRole*" `;do
 #        echo "start working on $file"
