@@ -59,8 +59,8 @@ php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_c
 echo "start working on 05.responseProfiles.0.xml"
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/05.responseProfiles.0.xml
 
-echo "start working on entry.99 "
-php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml
+#echo "start working on entry.99 "
+#php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml
 
 #
 #echo "start working on entry. -4 "
