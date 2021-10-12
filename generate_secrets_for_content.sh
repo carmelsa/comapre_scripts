@@ -56,6 +56,9 @@ php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_c
 #php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.-4.xml
 
 
+echo "start working on 03.EventNotificationTemplate.0.xml "
+php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/03.EventNotificationTemplate.0.xml
+
 echo "start working on 02.playlist.99.xml "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.playlist.99.xml
 #for file in `find .$INIT_CONTENT/ -not -name "*template*" -not -name "*UserRole*" `;do
