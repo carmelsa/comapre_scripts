@@ -94,7 +94,7 @@ pipeline {
                     {
                         sh 'unzip server-saas-config-Quasar-17.11.0.zip'
                         sh 'cp server-saas-config-Quasar-17.11.0/configurations/plugins.ini.admin server/configurations'
-                        sh 'cp  server-saas-config-Quasar-17.11.0/configurations/plugins.ini.base server/configurations'
+                        sh 'cp server-saas-config-Quasar-17.11.0/configurations/plugins.ini.base server/configurations'
                     }
                     writeFile(file: 'server/configurations/dc_config.ini', text: dc_config)
                     sh 'find server/cache/ -type f -delete'
@@ -140,34 +140,6 @@ pipeline {
             sh "./generate_secrets_for_ini.sh /server/deployment/base/scripts/init_data ${params.LIVE_PACKAGER_HOST} ${params.VOD_PACKAGER_HOST} ${params.WWW_HOST}"
                }
          }
-
-        stage('permissions file') {
-            when {
-                expression { return params.set_permissions }
-            }
-            steps {
-                script {
-                        dir('server')
-                        {
-                            files = findFiles(glob: 'deployment/permissions/*.ini')
-                            echo "file size is " + files.size()
-                            sh 'pwd'
-                            sleep 20
-                            for (int i = 0; i < files.size(); i++) {
-                                def filename = files[i]
-                                sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename >> addPermissionsAndItemsLog.txt"
-                              }
-                            plugin_files = findFiles(glob: 'plugins/**/permissions.ini')
-                            echo "plugin_files size is " + plugin_files.size()
-                            for (int i = 0; i < plugin_files.size(); i++) {
-                                def filename = plugin_files[i]
-                                sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename >> addPermissionsAndItemsLog.txt"
-                              }
-                        }
-                }
-
-            }
-        }
          stage('init data') {
              when {
                allOf {
@@ -197,6 +169,33 @@ pipeline {
 
             }
         }
+        stage('permissions file') {
+            when {
+                expression { return params.set_permissions }
+            }
+            steps {
+                script {
+                        dir('server')
+                        {
+                            files = findFiles(glob: 'deployment/permissions/*.ini')
+                            echo "file size is " + files.size()
+                            sh 'pwd'
+                            for (int i = 0; i < files.size(); i++) {
+                                def filename = files[i]
+                                sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename >> addPermissionsAndItemsLog.txt"
+                              }
+                            plugin_files = findFiles(glob: 'plugins/**/permissions.ini')
+                            echo "plugin_files size is " + plugin_files.size()
+                            for (int i = 0; i < plugin_files.size(); i++) {
+                                def filename = plugin_files[i]
+                                sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename >> addPermissionsAndItemsLog.txt"
+                              }
+                        }
+                }
+
+            }
+        }
+
         stage('add user') {
              when {
                allOf {
