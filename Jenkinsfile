@@ -218,12 +218,12 @@ pipeline {
                        {
                             files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*,deployment/base/scripts/init_content/*UserRole*')
                             echo "file init content size is " + files.size()
+                            sleep 20
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 sh "php tests/standAloneClient/exec.php $filename "
                               }
-                       //     sleep 20
-                              sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                            //  sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                           //  sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml'
                         }
                 }
