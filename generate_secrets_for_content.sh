@@ -63,8 +63,8 @@ php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_c
 #php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml
 
 #
-#echo "start working on entry. -4 "
-#php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.-4.xml
+echo "start working on entry. -4 "
+php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.-4.xml
 
 #echo "start working on 04.dropFolder.-4.xml"
 #php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/04.dropFolder.-4.xml
