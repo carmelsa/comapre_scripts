@@ -68,15 +68,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip vim locate'
-                sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4 php7.4-mysql'
-                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip mysql-client'
-//                 sh 'apt-get install -y mysql-server'
-                sh 'python3 --version'
-     //           echo "host url is ${params.DB_URL}"
-//                 sh 'pip3 install mysql-connector-python'
+                sh 'apt-get update && apt-get install -y python3 python3-pip git unzip vim locate mysql-client'
                 sh 'DEBIAN_FRONTEND=noninteractive apt-get install -y php7.4 php7.4-mysql php7.4-curl php-mbstring php-dom'
-                sh 'apt-get install -y mysql-client '
                 sh 'useradd kaltura'
                 script {
                     env.BASE_PATH = "server/"
