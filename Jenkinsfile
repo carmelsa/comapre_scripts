@@ -214,14 +214,18 @@ pipeline {
                         //echo "start working on entry.99"
                         //sh 'php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml'
 
-                        //dir('server')
-             //           {
-                        //    files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*')
-                       //     echo "file init data size is " + files.size()
+                        dir('server')
+                       {
+                            files = findFiles(glob: 'deployment/base/scripts/init_content/*.xml',excludes: 'deployment/base/scripts/init_content/*template*,deployment/base/scripts/init_content/*UserRole*')
+                            echo "file init content size is " + files.size()
+                            for (int i = 0; i < files.size(); i++) {
+                                def filename = files[i]
+                                sh "php tests/standAloneClient/exec.php $filename "
+                              }
                        //     sleep 20
-                         //   sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
+                              sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.-2.xml'
                           //  sh 'php tests/standAloneClient/exec.php deployment/base/scripts/init_content/01.UserRole.99.xml'
-                      //  }
+                        }
                 }
 
             }

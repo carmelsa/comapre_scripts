@@ -73,10 +73,10 @@ fi
 
 
 
-for file in `find .$INIT_CONTENT/ -name "*.xml" -not -name "*.template*" -not -name "*UserRole*" `;do
-        echo "start working on $file"
-        php server/tests/standAloneClient/exec.php $file
-done
+#for file in `find .$INIT_CONTENT/ -name "*.xml" -not -name "*.template*" -not -name "*UserRole*" `;do
+#        echo "start working on $file"
+#        php server/tests/standAloneClient/exec.php $file
+#done
 
 
 
