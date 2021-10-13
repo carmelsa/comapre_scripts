@@ -45,9 +45,11 @@ fi
 echo "start working on accessControl "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.accessControl.xml
 
-echo "start working on conversionProfile "
+echo "start working on conversionProfile 99"
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.conversionProfile.99.xml
 
+echo "start working on conversionProfile -4"
+php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/01.conversionProfile.-4.xml
 
 echo "start working on 03.EventNotificationTemplate.0.xml "
 php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/03.EventNotificationTemplate.0.xml
