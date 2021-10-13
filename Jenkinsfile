@@ -152,13 +152,13 @@ pipeline {
                             files = findFiles(glob: 'deployment/permissions/*.ini')
                             echo "file size is " + files.size()
                             sh 'pwd'
+                            sleep 20
                             for (int i = 0; i < files.size(); i++) {
                                 def filename = files[i]
                                 sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename >> addPermissionsAndItemsLog.txt"
                               }
                             plugin_files = findFiles(glob: 'plugins/**/permissions.ini')
                             echo "plugin_files size is " + plugin_files.size()
-                            sleep 20
                             for (int i = 0; i < plugin_files.size(); i++) {
                                 def filename = plugin_files[i]
                                 sh "php alpha/scripts/utils/permissions/addPermissionsAndItems.php $filename >> addPermissionsAndItemsLog.txt"
