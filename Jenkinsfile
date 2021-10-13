@@ -217,9 +217,9 @@ pipeline {
                         echo "add user admin"
                         sh 'chmod +x generate_secrets_for_content.sh'
                         sh "./generate_secrets_for_content.sh /server/deployment/base/scripts/init_content  ${params.WWW_HOST} ${params.USER_EMAIL} ${params.USER_PASSWORD} ${params.DB_URL} ${params.DB_USER} ${params.DB_PASSWORD}"
-                        sleep 20
-                        echo "start working on entry.99"
-                        sh 'php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml'
+                   //     sleep 20
+                        //echo "start working on entry.99"
+                        //sh 'php server/tests/standAloneClient/exec.php server/deployment/base/scripts/init_content/02.entry.99.xml'
 
                         //dir('server')
              //           {
