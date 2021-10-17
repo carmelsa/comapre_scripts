@@ -23,6 +23,7 @@ pipeline {
                 script {
                     sh 'mkdir -p server/cache/scripts'
                     sh 'chmod +x generate_configuration_files.sh'
+                    sleep 20
                     sh "./generate_configuration_files.sh ${params.DB_URL} ${params.DB_USER} ${params.DB_PASSWORD} ${params.WWW_HOST}"
                     env.CREATE_TABLE_SCRIPT = 'server/deployment/base/sql/01.kaltura_ce_tables.sql'
                     if ( fileExists ("server-saas-clients-Quasar-17.10.0") == false)
