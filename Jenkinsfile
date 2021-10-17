@@ -22,9 +22,6 @@ pipeline {
                 sh 'useradd kaltura'
                 script {
                     sh 'mkdir -p server/cache/scripts'
-                    sh 'chmod +x generate_configuration_files.sh'
-                    sleep 20
-                    sh "./generate_configuration_files.sh ${params.DB_URL} ${params.DB_USER} ${params.DB_PASSWORD} ${params.WWW_HOST}"
                     env.CREATE_TABLE_SCRIPT = 'server/deployment/base/sql/01.kaltura_ce_tables.sql'
                     if ( fileExists ("server-saas-clients-Quasar-17.10.0") == false)
                     {
@@ -41,6 +38,8 @@ pipeline {
                         sh 'cp server-saas-config-Quasar-17.11.0/configurations/plugins.ini.base server/configurations'
                     }
                     sh 'find server/cache/ -type f -delete'
+                    sh 'chmod +x generate_configuration_files.sh'
+                    sh "./generate_configuration_files.sh ${params.DB_URL} ${params.DB_USER} ${params.DB_PASSWORD} ${params.WWW_HOST}"
                 }
             }
         }
